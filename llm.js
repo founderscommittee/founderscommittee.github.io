@@ -1,24 +1,24 @@
 const llmBackground = document.getElementById('llm-background');
-const tokenLength = 5;
+const sentenceLength = 5;
 
-function generateToken() {
-    const characters = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
-    let token = '';
-    for (let i = 0; i < tokenLength; i++) {
-        token += characters.charAt(Math.floor(Math.random() * characters.length));
+function generateSentence() {
+    const words = ['innovation', 'technology', 'future', 'AI', 'blockchain', 'startup', 'venture', 'capital', 'investment', 'growth'];
+    let sentence = '';
+    for (let i = 0; i < sentenceLength; i++) {
+        sentence += words[Math.floor(Math.random() * words.length)] + ' ';
     }
-    return token;
+    return sentence.trim();
 }
 
-function addToken() {
-    const token = document.createElement('span');
-    token.className = 'llm-token';
-    token.textContent = generateToken();
-    llmBackground.appendChild(token);
+function addSentence() {
+    const sentence = document.createElement('div');
+    sentence.className = 'llm-sentence';
+    sentence.textContent = generateSentence();
+    llmBackground.appendChild(sentence);
 
     setTimeout(() => {
-        token.remove();
-    }, 2000);
+        sentence.remove();
+    }, 3000);
 }
 
-setInterval(addToken, 200);
+setInterval(addSentence, 1000);

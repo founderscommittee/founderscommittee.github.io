@@ -66,18 +66,21 @@ canvas {
     pointer-events: none;
     z-index: 0;
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
     padding: 20px;
     box-sizing: border-box;
 }
-.llm-token {
+.llm-sentence {
     font-size: 18px;
     font-weight: 400;
     color: #007bff;
     opacity: 0;
-    animation: fade-in-out 2s ease-in-out forwards;
-    margin: 5px;
+    animation: fade-in-out 3s ease-in-out forwards;
+    margin-bottom: 10px;
+    text-align: center;
+    width: 100%;
 }
 @keyframes fade-in-out {
     0%, 100% {
