@@ -6,8 +6,8 @@ const botScoreElement = document.getElementById('bot-score');
 // Game variables
 let ballX = canvas.width / 2;
 let ballY = canvas.height / 2;
-let ballSpeedX = 2;
-let ballSpeedY = 2;
+let ballSpeedX = 4; // Increased ball speed
+let ballSpeedY = 4; // Increased ball speed
 let playerY = canvas.height / 2;
 let botY = canvas.height / 2;
 const paddleHeight = 80;
@@ -56,11 +56,19 @@ function gameLoop() {
         resetBall();
     }
 
-    // Bot AI
-    if (ballY < botY + paddleHeight / 2) {
-        botY -= playerSpeed;
-    } else {
-        botY += playerSpeed;
+    // Bot AI with randomness
+    if (Math.random() < 0.8) { // 80% chance for the bot to follow the ball
+        if (ballY < botY + paddleHeight / 2) {
+            botY -= playerSpeed;
+        } else {
+            botY += playerSpeed;
+        }
+    } else { // 20% chance for the bot to move randomly
+        if (Math.random() < 0.5) {
+            botY -= playerSpeed;
+        } else {
+            botY += playerSpeed;
+        }
     }
 
     // Draw paddles
