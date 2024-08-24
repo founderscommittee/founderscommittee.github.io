@@ -4,8 +4,6 @@ const newsContainer = document.getElementById('news-container');
 const newsSkeleton = document.getElementById('news-skeleton');
 const newsDate = document.getElementById('news-date');
 
-const groqApiKey = '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';
-
 async function fetchHackerNews() {
     try {
         const topStoriesResponse = await fetch('https://hacker-news.firebaseio.com/v0/topstories.json');
@@ -58,9 +56,19 @@ async function fetchAdvice() {
 }
 
 async function updateAdvice() {
-    adviceText.textContent = "Loading advice...";
+    adviceText.innerHTML = `
+        <div class="h-4 bg-gray-200 rounded w-3/4 mx-auto mb-2"></div>
+        <div class="h-4 bg-gray-200 rounded w-1/2 mx-auto"></div>
+    `;
     const advice = await fetchAdvice();
-    adviceText.textContent = advice;
+    if (advice === "Unable to fetch advice at this time. Please try again later.") {
+        adviceText.innerHTML = `
+            <div class="h-4 bg-gray-200 rounded w-3/4 mx-auto mb-2"></div>
+            <div class="h-4 bg-gray-200 rounded w-1/2 mx-auto"></div>
+        `;
+    } else {
+        adviceText.textContent = advice;
+    }
 }
 
 async function updateNews() {
@@ -74,9 +82,10 @@ async function updateNews() {
         
         const storyList = stories.map(story => {
             const link = story.url ? `<a href="${story.url}" target="_blank" rel="noopener noreferrer" class="text-blue-600 hover:underline">Read more</a>` : '';
+            const userLink = `<a href="https://news.ycombinator.com/user?id=${story.by}" target="_blank" rel="noopener noreferrer" class="text-blue-600 hover:underline">${story.by}</a>`;
             return `<li class="mb-4">
                 <strong>${story.title}</strong> <span class="text-sm text-gray-500">(Score: ${story.score})</span><br>
-                ${link}
+                by ${userLink} | ${link}
             </li>`;
         }).join('');
 
