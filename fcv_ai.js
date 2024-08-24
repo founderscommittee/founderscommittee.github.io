@@ -37,15 +37,15 @@ async function fetchAdvice() {
                 messages: [
                     {
                         role: "system",
-                        content: "You are Founders Committee Ventures, a forward-thinking venture capital fund. Provide a unique, insightful, and specific one-sentence piece of advice for startup founders. Draw from various aspects of business such as strategy, finance, marketing, product development, or team management. Ensure each piece of advice is distinct and tailored to current trends or challenges in the startup ecosystem."
+                        content: "You are Founders Committee Ventures, a forward-thinking venture capital fund. Provide unique, insightful, and specific advice for startup founders. Draw from various aspects of business such as strategy, finance, marketing, product development, team management, or emerging trends. Each piece of advice should be distinct, creative, and tailored to current challenges in the startup ecosystem. Aim for unconventional wisdom that goes beyond common startup advice."
                     },
                     {
                         role: "user",
-                        content: `Provide unique startup advice. Current time: ${currentDate}`
+                        content: `Generate a surprising and thought-provoking piece of startup advice that founders might not have considered before. Make it specific and actionable. Current time: ${currentDate}`
                     }
                 ],
-                max_tokens: 100,
-                temperature: 0.7
+                max_tokens: 150,
+                temperature: 0.9
             })
         });
 
