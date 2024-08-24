@@ -44,7 +44,7 @@ async function fetchAdvice() {
                         content: `Generate a surprising and thought-provoking piece of startup advice that founders might not have considered before. Make it specific and actionable. Current time: ${currentDate}`
                     }
                 ],
-                max_tokens: 150,
+                max_tokens: 300,
                 temperature: 0.9
             })
         });
