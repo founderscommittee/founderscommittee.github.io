@@ -3,14 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Founders Committee Ventures - Coming Soon</title>
-    <link rel="stylesheet" href="styles.css">
+    <title>Founders Committee Ventures</title>
+    <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 
     <!-- Open Graph Meta Tags -->
-    <meta property="og:title" content="Founders Committee Ventures - Coming Soon">
-    <meta property="og:description" content="Stay tuned for the new website of Founders Committee Ventures, coming soon.">
+    <meta property="og:title" content="Founders Committee Ventures">
+    <meta property="og:description" content="Founders Committee Ventures is a forward-thinking venture capital fund dedicated to supporting innovative startups and visionary entrepreneurs.">
     <meta property="og:image" content="https://example.com/path-to-your-image.jpg">
     <meta property="og:url" content="https://yourwebsite.com">
     <meta property="og:site_name" content="Founders Committee Ventures">
@@ -19,36 +19,79 @@
 
     <!-- Twitter Card Meta Tags -->
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Founders Committee Ventures - Coming Soon">
-    <meta name="twitter:description" content="Stay tuned for the new website of Founders Committee Ventures, coming soon.">
+    <meta name="twitter:title" content="Founders Committee Ventures">
+    <meta name="twitter:description" content="Founders Committee Ventures is a forward-thinking venture capital fund dedicated to supporting innovative startups and visionary entrepreneurs.">
     <meta name="twitter:image" content="https://example.com/path-to-your-image.jpg">
     <meta name="twitter:site" content="@yourtwitterhandle">
     <meta name="twitter:creator" content="@yourtwitterhandle">
     <meta name="twitter:image:alt" content="A description of the image for visually impaired users">
 </head>
-<body>
-    <div id="llm-background"></div>
-    <div class="container">
-        <h1>Founders Committee Ventures</h1>
-        <h2>new website coming soon</h2>
-        <h3>Assembly AI</h3>
-        <div id="game-container">
-            <canvas id="game-canvas" width="800" height="400"></canvas>
-            <div id="score-container">
-                <span id="player-score">0</span> : <span id="bot-score">1</span>
-            </div>
+<body class="bg-gray-100 font-sans text-gray-800">
+    <div id="llm-background" class="fixed inset-0 z-0 opacity-10 pointer-events-none"></div>
+    
+    <div class="container mx-auto px-4 py-12 relative z-10">
+        <header class="text-center mb-16">
+            <h1 class="text-5xl font-bold mb-4 text-blue-600">Founders Committee Ventures</h1>
+            <h2 class="text-3xl font-semibold mb-2 text-gray-700">Empowering Visionary Entrepreneurs</h2>
+            <p class="text-xl text-gray-600">We invest in bold ideas that shape the future</p>
+        </header>
+
+        <div class="text-center mb-12">
+            <button id="submit-pitch" onclick="window.open('https://airtable.com/appjIoCUvdDaJd8Vi/shrsjlsmcj0PMPafs', '_blank');" class="bg-green-500 hover:bg-green-600 text-white font-bold py-3 px-6 rounded-lg transition duration-300 ease-in-out transform hover:-translate-y-1 hover:scale-105">
+                Pitch to Us
+            </button>
         </div>
-        <button id="submit-pitch" onclick="window.open('https://airtable.com/appjIoCUvdDaJd8Vi/shrsjlsmcj0PMPafs', '_blank');">Submit Pitch</button>
+
+        <div class="flex flex-col gap-8 mb-12">
+            <section id="advice" class="bg-white rounded-lg shadow-lg p-8">
+                <h2 class="text-2xl font-semibold mb-4 text-center text-gray-800">FCV AI Insights</h2>
+                <div id="advice-container" class="max-w-2xl mx-auto">
+                    <div id="advice-text" class="text-lg italic text-gray-700 mb-6 text-center">
+                        <div class="h-4 bg-gray-200 rounded w-3/4 mx-auto mb-2"></div>
+                        <div class="h-4 bg-gray-200 rounded w-1/2 mx-auto"></div>
+                    </div>
+                    <button id="new-advice-btn" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded transition duration-300 ease-in-out transform hover:-translate-y-1 hover:scale-105 mx-auto block">
+                        Get New Advice
+                    </button>
+                </div>
+            </section>
+
+            <section id="startup-news" class="bg-white rounded-lg shadow-lg p-8">
+                <h2 class="text-2xl font-semibold mb-4 text-center text-gray-800">Hacker News Top Stories</h2>
+                <div id="news-date" class="text-sm text-gray-500 mb-2 text-center"></div>
+                <div id="news-container" class="max-w-2xl mx-auto text-lg text-gray-700">
+                    <div id="news-skeleton" class="text-left">
+                        <div class="h-4 bg-gray-200 rounded w-3/4 mb-2"></div>
+                        <div class="h-4 bg-gray-200 rounded w-5/6 mb-2"></div>
+                        <div class="h-4 bg-gray-200 rounded w-2/3 mb-2"></div>
+                        <div class="h-4 bg-gray-200 rounded w-4/5 mb-2"></div>
+                        <div class="h-4 bg-gray-200 rounded w-3/4 mb-2"></div>
+                    </div>
+                </div>
+            </section>
+        </div>
     </div>
-    <footer>
-        <div class="social-icons">
-            <a href="#"><i class="fab fa-facebook-f"></i></a>
-            <a href="#"><i class="fab fa-twitter"></i></a>
-            <a href="#"><i class="fab fa-linkedin-in"></i></a>
-            <a href="#"><i class="fab fa-instagram"></i></a>
+
+    <section id="about" class="bg-blue-50 py-16">
+        <div class="container mx-auto px-4 max-w-3xl">
+            <h2 class="text-3xl font-semibold mb-6 text-center text-blue-800">About Us</h2>
+            <p class="text-lg text-gray-700 leading-relaxed">
+                Founders Committee Ventures is a forward-thinking venture capital fund dedicated to supporting innovative startups and visionary entrepreneurs. We believe in the power of disruptive ideas and the potential of passionate founders to change the world.
+            </p>
+        </div>
+    </section>
+
+    <footer class="bg-gray-800 text-white py-8">
+        <div class="container mx-auto px-4 text-center">
+            <div class="social-icons mb-4">
+                <a href="#" target="_blank" class="text-2xl mx-2 hover:text-blue-400 transition duration-300"><i class="fab fa-linkedin-in"></i></a>
+                <a href="#" target="_blank" class="text-2xl mx-2 hover:text-blue-400 transition duration-300"><i class="fab fa-twitter"></i></a>
+                <a href="#" target="_blank" class="text-2xl mx-2 hover:text-blue-400 transition duration-300"><i class="fab fa-medium-m"></i></a>
+            </div>
+            <p class="text-sm">&copy; 2024 Founders Committee Ventures. All rights reserved.</p>
         </div>
     </footer>
-    <script src="game.js"></script>
-    <script src="llm.js"></script>
+
+    <script src="fcv_ai.js"></script>
 </body>
 </html>
