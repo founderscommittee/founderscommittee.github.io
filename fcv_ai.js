@@ -1,5 +1,3 @@
-const adviceText = document.getElementById('advice-text');
-const newAdviceBtn = document.getElementById('new-advice-btn');
 const newsContainer = document.getElementById('news-container');
 const newsSkeleton = document.getElementById('news-skeleton');
 const newsDate = document.getElementById('news-date');
@@ -17,57 +15,6 @@ async function fetchHackerNews() {
     } catch (error) {
         console.error('Error fetching Hacker News:', error);
         return [];
-    }
-}
-
-async function fetchAdvice() {
-    try {
-        const currentDate = new Date().toISOString();
-        
-        const response = await fetch('https://api.groq.com/openai/v1/chat/completions', {
-            method: 'POST',
-            headers: {
-                'Authorization': `Bearer ${groqApiKey}`,
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                model: "llama-3.1-70b-versatile",
-                messages: [
-                    {
-                        role: "system",
-                        content: "You are Founders Committee Ventures, a forward-thinking venture capital fund. Provide unique, insightful, and specific advice for startup founders. Draw from various aspects of business such as strategy, finance, marketing, product development, team management, or emerging trends. Each piece of advice should be distinct, creative, and tailored to current challenges in the startup ecosystem. Aim for unconventional wisdom that goes beyond common startup advice. Everyhting should be in 3-5 sentences."
-                    },
-                    {
-                        role: "user",
-                        content: `Generate a surprising and thought-provoking piece of startup advice that founders might not have considered before. Make it specific and actionable. Current time: ${currentDate}`
-                    }
-                ],
-                max_tokens: 300,
-                temperature: 0.9
-            })
-        });
-
-        const data = await response.json();
-        return data.choices[0].message.content.trim();
-    } catch (error) {
-        console.error('Error fetching advice:', error);
-        return "Unable to fetch advice at this time. Please try again later.";
-    }
-}
-
-async function updateAdvice() {
-    adviceText.innerHTML = `
-        <div class="h-4 bg-gray-200 rounded w-3/4 mx-auto mb-2"></div>
-        <div class="h-4 bg-gray-200 rounded w-1/2 mx-auto"></div>
-    `;
-    const advice = await fetchAdvice();
-    if (advice === "Unable to fetch advice at this time. Please try again later.") {
-        adviceText.innerHTML = `
-            <div class="h-4 bg-gray-200 rounded w-3/4 mx-auto mb-2"></div>
-            <div class="h-4 bg-gray-200 rounded w-1/2 mx-auto"></div>
-        `;
-    } else {
-        adviceText.textContent = advice;
     }
 }
 
@@ -103,10 +50,7 @@ async function updateNews() {
     }
 }
 
-newAdviceBtn.addEventListener('click', updateAdvice);
-
 // Initial load
-updateAdvice();
 updateNews();
 
 // Refresh news every hour

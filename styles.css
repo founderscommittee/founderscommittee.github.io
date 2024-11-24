@@ -9,7 +9,7 @@ body {
 .container {
     max-width: 1200px;
     margin: 0 auto;
-    padding: 40px 40px; /* Reduced top padding */
+    padding: 40px 40px;
     text-align: center;
     position: relative;
     z-index: 1;
@@ -32,33 +32,7 @@ h2 {
     color: #666;
     margin-bottom: 40px;
 }
-#advice {
-    background-color: transparent; /* Remove background color */
-    padding: 20px 0; /* Adjust padding */
-    margin-bottom: 30px; /* Add space between advice and submit button */
-    box-shadow: none; /* Remove box shadow */
-}
-#advice-container {
-    max-width: 800px; /* Increase max-width for better readability */
-    margin: 0 auto;
-}
-#advice-text {
-    font-size: 24px; /* Increase font size */
-    line-height: 1.4;
-    margin-bottom: 20px;
-    font-style: italic;
-    color: #333;
-}
-#new-advice-btn {
-    margin-bottom: 30px; /* Add space after the button */
-}
-/* Remove if not used */
-/* .cta-buttons {
-    display: flex;
-    justify-content: center;
-} */
 
-/* Consolidate #submit-pitch styles */
 #submit-pitch {
     padding: 15px 30px;
     font-size: 20px;
@@ -129,4 +103,56 @@ footer {
     100% {
         transform: translateX(-100%);
     }
+}
+
+.portfolio-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    margin: 2rem 0;
+}
+
+.portfolio-item {
+    background: white;
+    border-radius: 8px;
+    padding: 1.5rem;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    transition: transform 0.3s ease;
+}
+
+.portfolio-item:hover {
+    transform: translateY(-5px);
+}
+
+.portfolio-logo {
+    width: 120px;
+    height: 120px;
+    object-fit: contain;
+    margin: 0 auto 1rem;
+}
+
+.team-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 2rem;
+    margin: 2rem 0;
+}
+
+.team-member {
+    text-align: center;
+    padding: 1.5rem;
+}
+
+.team-photo {
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin: 0 auto 1rem;
+}
+
+.social-link {
+    color: #007bff;
+    margin: 0 0.5rem;
+    font-size: 1.2rem;
 }
