@@ -6,11 +6,11 @@ async function fetchHackerNews() {
     try {
         const topStoriesResponse = await fetch('https://hacker-news.firebaseio.com/v0/topstories.json');
         const topStoryIds = await topStoriesResponse.json();
-        
-        const storyPromises = topStoryIds.slice(0, 10).map(id => 
+
+        const storyPromises = topStoryIds.slice(0, 10).map(id =>
             fetch(`https://hacker-news.firebaseio.com/v0/item/${id}.json`).then(res => res.json())
         );
-        
+
         return await Promise.all(storyPromises);
     } catch (error) {
         console.error('Error fetching Hacker News:', error);
@@ -26,7 +26,7 @@ async function updateNews() {
     const stories = await fetchHackerNews();
     if (stories.length > 0) {
         newsSkeleton.style.display = 'none';
-        
+
         const storyList = stories.map(story => {
             const link = story.url ? `<a href="${story.url}" target="_blank" rel="noopener noreferrer" class="text-blue-600 hover:underline">Read more</a>` : '';
             const userLink = `<a href="https://news.ycombinator.com/user?id=${story.by}" target="_blank" rel="noopener noreferrer" class="text-blue-600 hover:underline">${story.by}</a>`;
@@ -38,10 +38,10 @@ async function updateNews() {
 
         newsContainer.innerHTML = `<ol class="list-decimal list-inside">${storyList}</ol>`;
 
-        const currentDate = new Date().toLocaleDateString('en-US', { 
-            year: 'numeric', 
-            month: 'long', 
-            day: 'numeric' 
+        const currentDate = new Date().toLocaleDateString('en-US', {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric'
         });
         newsDate.textContent = `HN Top 10 - ${currentDate} (auto-updates)`;
     } else {
