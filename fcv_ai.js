@@ -75,3 +75,19 @@ const observer = new IntersectionObserver((entries) => {
 document.querySelectorAll('.section-animate').forEach((section) => {
     observer.observe(section);
 });
+
+// Add Konami code detector
+const konamiCode = ['ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'ArrowLeft', 'ArrowRight', 'b', 'a'];
+let konamiIndex = 0;
+
+document.addEventListener('keydown', (e) => {
+    if (e.key === konamiCode[konamiIndex]) {
+        konamiIndex++;
+        if (konamiIndex === konamiCode.length) {
+            konamiIndex = 0;
+            new SnakeGame();
+        }
+    } else {
+        konamiIndex = 0;
+    }
+});
