@@ -53,8 +53,8 @@ async function updateNews() {
 // Initial load
 updateNews();
 
-// Refresh news every hour
-setInterval(updateNews, 3600000);
+// Refresh news every 10 minutes
+setInterval(updateNews, 600000);
 
 // Add section animations
 const observerOptions = {
