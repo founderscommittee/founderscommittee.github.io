@@ -47,6 +47,14 @@
                 <div class="flex-shrink-0">
                     <a href="#" class="text-xl font-bold text-blue-600">FCV</a>
                 </div>
+                <!-- Mobile menu button -->
+                <div class="md:hidden">
+                    <button id="mobile-menu-button" class="text-gray-700 hover:text-blue-600 transition-colors">
+                        <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                        </svg>
+                    </button>
+                </div>
                 <div class="hidden md:flex items-center space-x-8">
                     <a href="#portfolio" class="text-gray-700 hover:text-blue-600 transition-colors">Portfolio</a>
                     <a href="#team" class="text-gray-700 hover:text-blue-600 transition-colors">Team</a>
@@ -57,6 +65,20 @@
                         Pitch to Us
                     </button>
                 </div>
+            </div>
+        </div>
+        
+        <!-- Mobile menu -->
+        <div id="mobile-menu" class="hidden md:hidden bg-white/95 backdrop-blur-md">
+            <div class="px-4 pt-2 pb-3 space-y-3">
+                <a href="#portfolio" class="block text-gray-700 hover:text-blue-600 transition-colors py-2">Portfolio</a>
+                <a href="#team" class="block text-gray-700 hover:text-blue-600 transition-colors py-2">Team</a>
+                <a href="#startup-news" class="block text-gray-700 hover:text-blue-600 transition-colors py-2">News</a>
+                <a href="#investors" class="block text-gray-700 hover:text-blue-600 transition-colors py-2">Invest</a>
+                <button onclick="window.open('https://airtable.com/appjIoCUvdDaJd8Vi/shrsjlsmcj0PMPafs', '_blank');" 
+                        class="w-full text-left bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors">
+                    Pitch to Us
+                </button>
             </div>
         </div>
     </nav>
@@ -70,7 +92,7 @@
                 We invest in exceptional founders building category-defining companies. 
                 From pre-seed to IPO, we're here to support the next generation of innovators.
             </p>
-            <div class="flex justify-center gap-6">
+            <div class="flex flex-wrap justify-center gap-6">
                 <button onclick="window.open('https://airtable.com/appjIoCUvdDaJd8Vi/shrsjlsmcj0PMPafs', '_blank');" 
                         class="bg-blue-600 text-white px-8 py-4 rounded-xl text-lg font-semibold hover:bg-blue-700 transition-all transform hover:-translate-y-1 hover:shadow-lg">
                     Submit Your Pitch
@@ -78,6 +100,10 @@
                 <a href="#portfolio" 
                    class="bg-gray-100 text-gray-800 px-8 py-4 rounded-xl text-lg font-semibold hover:bg-gray-200 transition-all transform hover:-translate-y-1">
                     View Portfolio
+                </a>
+                <a href="#team" 
+                   class="bg-gray-100 text-gray-800 px-8 py-4 rounded-xl text-lg font-semibold hover:bg-gray-200 transition-all transform hover:-translate-y-1">
+                    Meet the Team
                 </a>
             </div>
         </div>
@@ -433,5 +459,20 @@
     </footer>
 
     <script src="fcv_ai.js"></script>
+    <script>
+        const mobileMenuButton = document.getElementById('mobile-menu-button');
+        const mobileMenu = document.getElementById('mobile-menu');
+
+        mobileMenuButton.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        // Close mobile menu when clicking a link
+        document.querySelectorAll('#mobile-menu a').forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenu.classList.add('hidden');
+            });
+        });
+    </script>
 </body>
 </html>
