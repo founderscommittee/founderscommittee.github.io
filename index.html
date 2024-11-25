@@ -41,17 +41,44 @@
 <body class="bg-gray-100 font-sans text-gray-800">
     <div id="llm-background" class="fixed inset-0 z-0 opacity-10 pointer-events-none"></div>
     
-    <div class="container mx-auto px-4 py-12 relative z-10">
-        <header class="text-center mb-16">
-            <h1 class="text-5xl font-bold mb-4 text-blue-600">Founders Committee Ventures</h1>
-            <h2 class="text-3xl font-semibold mb-2 text-gray-700">Empowering Visionary Entrepreneurs</h2>
-            <p class="text-xl text-gray-600">We invest in bold ideas that shape the future</p>
-        </header>
+    <nav class="bg-white/80 backdrop-blur-md fixed w-full z-50 top-0 shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16 items-center">
+                <div class="flex-shrink-0">
+                    <span class="text-xl font-bold text-blue-600">FCV</span>
+                </div>
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="#portfolio" class="text-gray-700 hover:text-blue-600 transition-colors">Portfolio</a>
+                    <a href="#team" class="text-gray-700 hover:text-blue-600 transition-colors">Team</a>
+                    <a href="#startup-news" class="text-gray-700 hover:text-blue-600 transition-colors">News</a>
+                    <button onclick="window.open('https://airtable.com/appjIoCUvdDaJd8Vi/shrsjlsmcj0PMPafs', '_blank');" 
+                            class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors">
+                        Pitch to Us
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
 
-        <div class="text-center mb-12">
-            <button id="submit-pitch" onclick="window.open('https://airtable.com/appjIoCUvdDaJd8Vi/shrsjlsmcj0PMPafs', '_blank');" class="bg-green-500 hover:bg-green-600 text-white font-bold py-3 px-6 rounded-lg transition duration-300 ease-in-out transform hover:-translate-y-1 hover:scale-105">
-                Pitch to Us
-            </button>
+    <div class="container mx-auto px-4 relative z-10">
+        <div class="pt-32 pb-20 text-center max-w-5xl mx-auto">
+            <h1 class="text-7xl font-bold mb-8 bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-indigo-600">
+                Founders Committee Ventures
+            </h1>
+            <p class="text-2xl text-gray-600 mb-12 max-w-3xl mx-auto">
+                We invest in exceptional founders building category-defining companies. 
+                From pre-seed to IPO, we're here to support the next generation of innovators.
+            </p>
+            <div class="flex justify-center gap-6">
+                <button onclick="window.open('https://airtable.com/appjIoCUvdDaJd8Vi/shrsjlsmcj0PMPafs', '_blank');" 
+                        class="bg-blue-600 text-white px-8 py-4 rounded-xl text-lg font-semibold hover:bg-blue-700 transition-all transform hover:-translate-y-1 hover:shadow-lg">
+                    Submit Your Pitch
+                </button>
+                <a href="#portfolio" 
+                   class="bg-gray-100 text-gray-800 px-8 py-4 rounded-xl text-lg font-semibold hover:bg-gray-200 transition-all transform hover:-translate-y-1">
+                    View Portfolio
+                </a>
+            </div>
         </div>
 
         <section id="portfolio" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
