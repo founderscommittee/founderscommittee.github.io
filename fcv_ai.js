@@ -43,7 +43,7 @@ async function updateNews() {
             month: 'long', 
             day: 'numeric' 
         });
-        newsDate.textContent = `Top 10 Hacker News Stories as of ${currentDate}`;
+        newsDate.textContent = `HN Top 10 - ${currentDate} (auto-updates)`;
     } else {
         newsSkeleton.style.display = 'none';
         newsContainer.textContent = "No startup news available at this time.";
