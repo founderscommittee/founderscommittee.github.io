@@ -4,17 +4,32 @@ class SnakeGame {
         this.ctx = this.canvas.getContext('2d');
         this.canvas.width = 400;
         this.canvas.height = 400;
-        this.canvas.style.border = '2px solid #007bff';
-        this.canvas.style.borderRadius = '8px';
-        
+        this.canvas.style.border = '2px solid transparent';
+        this.canvas.style.borderRadius = '12px';
+        this.canvas.style.background = 'linear-gradient(45deg, #f3f4f6 0%, #ffffff 100%)';
+        this.canvas.style.boxShadow = '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)';
+
         this.gridSize = 20;
-        this.snake = [{x: 10, y: 10}];
+        this.snake = [{ x: 10, y: 10 }];
         this.food = this.generateFood();
         this.direction = 'right';
         this.score = 0;
         this.gameLoop = null;
         this.gameSpeed = 100;
         this.gameStarted = false;
+
+        this.colors = {
+            snake: {
+                head: '#3B82F6',
+                body: '#60A5FA',
+                outline: '#2563EB'
+            },
+            food: {
+                fill: '#EF4444',
+                outline: '#DC2626'
+            },
+            grid: '#E5E7EB'
+        };
 
         this.modal = document.createElement('div');
         this.setupModal();
@@ -27,63 +42,87 @@ class SnakeGame {
         this.modal.style.top = '50%';
         this.modal.style.left = '50%';
         this.modal.style.transform = 'translate(-50%, -50%)';
-        this.modal.style.backgroundColor = 'rgba(255, 255, 255, 0.95)';
-        this.modal.style.padding = '20px';
-        this.modal.style.borderRadius = '12px';
-        this.modal.style.boxShadow = '0 0 20px rgba(0,0,0,0.2)';
+        this.modal.style.backgroundColor = 'rgba(255, 255, 255, 0.98)';
+        this.modal.style.padding = '24px';
+        this.modal.style.borderRadius = '16px';
+        this.modal.style.boxShadow = '0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)';
         this.modal.style.zIndex = '1000';
         this.modal.style.textAlign = 'center';
+        this.modal.style.minWidth = '440px';
+        this.modal.style.border = '1px solid rgba(0, 0, 0, 0.1)';
 
         const title = document.createElement('h3');
-        title.textContent = 'FCV Snake Game';
-        title.style.marginBottom = '10px';
-        title.style.color = '#007bff';
+        title.textContent = '🎮 FCV Snake Game';
+        title.style.fontSize = '24px';
+        title.style.fontWeight = 'bold';
+        title.style.marginBottom = '16px';
+        title.style.background = 'linear-gradient(90deg, #2563EB, #3B82F6)';
+        title.style.webkitBackgroundClip = 'text';
+        title.style.backgroundClip = 'text';
+        title.style.color = 'transparent';
 
         const scoreDisplay = document.createElement('div');
         scoreDisplay.id = 'snake-score';
         scoreDisplay.textContent = 'Score: 0';
-        scoreDisplay.style.marginBottom = '10px';
+        scoreDisplay.style.fontSize = '18px';
+        scoreDisplay.style.fontWeight = '500';
+        scoreDisplay.style.color = '#4B5563';
+        scoreDisplay.style.marginBottom = '16px';
 
         const congratsMessage = document.createElement('div');
-        congratsMessage.textContent = '🎉 You found the secret game! Press Start to play.';
-        congratsMessage.style.color = '#007bff';
-        congratsMessage.style.marginBottom = '10px';
+        congratsMessage.innerHTML = '🎉 You found the secret game!<br>Use arrow keys to control the snake.';
+        congratsMessage.style.color = '#6B7280';
+        congratsMessage.style.marginBottom = '20px';
         congratsMessage.style.fontSize = '16px';
+        congratsMessage.style.lineHeight = '1.5';
+
+        const buttonContainer = document.createElement('div');
+        buttonContainer.style.display = 'flex';
+        buttonContainer.style.gap = '12px';
+        buttonContainer.style.justifyContent = 'center';
+        buttonContainer.style.marginBottom = '20px';
 
         const startButton = document.createElement('button');
-        startButton.textContent = 'Start Game';
-        startButton.style.marginRight = '10px';
-        startButton.style.padding = '8px 16px';
-        startButton.style.backgroundColor = '#28a745';
+        startButton.textContent = '▶️ Start Game';
+        startButton.style.padding = '8px 20px';
+        startButton.style.backgroundColor = '#10B981';
         startButton.style.color = 'white';
         startButton.style.border = 'none';
-        startButton.style.borderRadius = '4px';
+        startButton.style.borderRadius = '8px';
         startButton.style.cursor = 'pointer';
+        startButton.style.fontWeight = '500';
+        startButton.style.transition = 'all 0.2s';
+        startButton.onmouseover = () => startButton.style.transform = 'translateY(-2px)';
+        startButton.onmouseout = () => startButton.style.transform = 'translateY(0)';
         startButton.onclick = () => this.startGameplay();
+
+        const closeButton = document.createElement('button');
+        closeButton.textContent = '✕ Close';
+        closeButton.style.padding = '8px 20px';
+        closeButton.style.backgroundColor = '#6B7280';
+        closeButton.style.color = 'white';
+        closeButton.style.border = 'none';
+        closeButton.style.borderRadius = '8px';
+        closeButton.style.cursor = 'pointer';
+        closeButton.style.fontWeight = '500';
+        closeButton.style.transition = 'all 0.2s';
+        closeButton.onmouseover = () => closeButton.style.transform = 'translateY(-2px)';
+        closeButton.onmouseout = () => closeButton.style.transform = 'translateY(0)';
+        closeButton.onclick = () => this.close();
+
+        buttonContainer.appendChild(startButton);
+        buttonContainer.appendChild(closeButton);
 
         this.modal.appendChild(title);
         this.modal.appendChild(scoreDisplay);
         this.modal.appendChild(congratsMessage);
-        this.modal.appendChild(startButton);
+        this.modal.appendChild(buttonContainer);
         this.modal.appendChild(this.canvas);
-
-        const closeButton = document.createElement('button');
-        closeButton.textContent = 'Close';
-        closeButton.style.marginTop = '10px';
-        closeButton.style.padding = '8px 16px';
-        closeButton.style.backgroundColor = '#007bff';
-        closeButton.style.color = 'white';
-        closeButton.style.border = 'none';
-        closeButton.style.borderRadius = '4px';
-        closeButton.style.cursor = 'pointer';
-        closeButton.onclick = () => this.close();
-
-        this.modal.appendChild(closeButton);
     }
 
     setupControls() {
         document.addEventListener('keydown', (e) => {
-            switch(e.key) {
+            switch (e.key) {
                 case 'ArrowUp':
                     if (this.direction !== 'down') this.direction = 'up';
                     break;
@@ -110,9 +149,9 @@ class SnakeGame {
     update() {
         if (!this.gameStarted) return;
 
-        const head = {...this.snake[0]};
+        const head = { ...this.snake[0] };
 
-        switch(this.direction) {
+        switch (this.direction) {
             case 'up': head.y--; break;
             case 'down': head.y++; break;
             case 'left': head.x--; break;
@@ -142,36 +181,63 @@ class SnakeGame {
     }
 
     draw() {
-        this.ctx.fillStyle = '#f8f9fa';
+        this.ctx.fillStyle = '#F9FAFB';
         this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
 
+        // Draw grid
+        this.ctx.strokeStyle = this.colors.grid;
+        this.ctx.lineWidth = 0.5;
+        for (let i = 0; i <= this.canvas.width; i += this.gridSize) {
+            this.ctx.beginPath();
+            this.ctx.moveTo(i, 0);
+            this.ctx.lineTo(i, this.canvas.height);
+            this.ctx.stroke();
+            this.ctx.beginPath();
+            this.ctx.moveTo(0, i);
+            this.ctx.lineTo(this.canvas.width, i);
+            this.ctx.stroke();
+        }
+
         if (!this.gameStarted) {
-            this.ctx.fillStyle = '#007bff';
-            this.ctx.font = '20px Arial';
+            this.ctx.fillStyle = '#3B82F6';
+            this.ctx.font = 'bold 16px Arial';
             this.ctx.textAlign = 'center';
-            this.ctx.fillText('Use arrow keys to control the snake', this.canvas.width/2, this.canvas.height/2);
+            this.ctx.fillText('Press Start to begin!', this.canvas.width / 2, this.canvas.height / 2);
             return;
         }
 
-        // Draw snake
-        this.ctx.fillStyle = '#007bff';
-        this.snake.forEach(segment => {
-            this.ctx.fillRect(
-                segment.x * this.gridSize,
-                segment.y * this.gridSize,
-                this.gridSize - 1,
-                this.gridSize - 1
-            );
+        // Draw snake with gradient and outline
+        this.snake.forEach((segment, index) => {
+            this.ctx.fillStyle = index === 0 ? this.colors.snake.head : this.colors.snake.body;
+            this.ctx.strokeStyle = this.colors.snake.outline;
+            this.ctx.lineWidth = 1;
+
+            const x = segment.x * this.gridSize;
+            const y = segment.y * this.gridSize;
+            const size = this.gridSize - 1;
+
+            this.ctx.beginPath();
+            this.ctx.roundRect(x, y, size, size, 4);
+            this.ctx.fill();
+            this.ctx.stroke();
         });
 
-        // Draw food
-        this.ctx.fillStyle = '#dc3545';
-        this.ctx.fillRect(
-            this.food.x * this.gridSize,
-            this.food.y * this.gridSize,
-            this.gridSize - 1,
-            this.gridSize - 1
-        );
+        // Draw food with glow effect
+        this.ctx.fillStyle = this.colors.food.fill;
+        this.ctx.strokeStyle = this.colors.food.outline;
+        this.ctx.lineWidth = 1;
+
+        const foodX = this.food.x * this.gridSize;
+        const foodY = this.food.y * this.gridSize;
+        const foodSize = this.gridSize - 1;
+
+        this.ctx.shadowColor = this.colors.food.fill;
+        this.ctx.shadowBlur = 10;
+        this.ctx.beginPath();
+        this.ctx.roundRect(foodX, foodY, foodSize, foodSize, 4);
+        this.ctx.fill();
+        this.ctx.stroke();
+        this.ctx.shadowBlur = 0;
     }
 
     restartGameLoop() {
@@ -189,7 +255,7 @@ class SnakeGame {
 
     startGameplay() {
         this.gameStarted = true;
-        this.snake = [{x: 10, y: 10}];
+        this.snake = [{ x: 10, y: 10 }];
         this.direction = 'right';
         this.score = 0;
         document.getElementById('snake-score').textContent = 'Score: 0';
@@ -200,12 +266,17 @@ class SnakeGame {
 
     gameOver() {
         clearInterval(this.gameLoop);
-        this.ctx.fillStyle = 'rgba(0, 0, 0, 0.5)';
+        this.ctx.fillStyle = 'rgba(0, 0, 0, 0.7)';
         this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
+
         this.ctx.fillStyle = 'white';
-        this.ctx.font = '20px Arial';
+        this.ctx.font = 'bold 24px Arial';
         this.ctx.textAlign = 'center';
-        this.ctx.fillText('Game Over!', this.canvas.width/2, this.canvas.height/2);
+        this.ctx.fillText('Game Over!', this.canvas.width / 2, this.canvas.height / 2 - 15);
+
+        this.ctx.font = '16px Arial';
+        this.ctx.fillText(`Final Score: ${this.score}`, this.canvas.width / 2, this.canvas.height / 2 + 15);
+        this.ctx.fillText('Press Start to play again', this.canvas.width / 2, this.canvas.height / 2 + 40);
     }
 
     close() {
