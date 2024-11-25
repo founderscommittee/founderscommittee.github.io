@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -81,7 +81,7 @@
             </div>
         </div>
 
-        <section id="portfolio" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+        <section id="portfolio" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 opacity-0 transition-opacity duration-1000 translate-y-4 section-animate">
             <div class="text-center">
                 <h2 class="text-4xl font-bold text-gray-900 mb-4">Selected Investments</h2>
                 <p class="text-xl text-gray-600 max-w-2xl mx-auto mb-12">We back exceptional founders from idea to IPO</p>
@@ -233,7 +233,7 @@
             </div>
         </section>
 
-        <section id="team" class="bg-gradient-to-b from-white to-blue-50 py-32">
+        <section id="team" class="bg-gradient-to-b from-white to-blue-50 py-32 opacity-0 transition-opacity duration-1000 translate-y-4 section-animate">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="text-center mb-16">
                     <span class="text-blue-600 font-semibold text-lg mb-4 block">Meet The Team</span>
@@ -378,7 +378,7 @@
             </div>
         </div>
 
-        <section id="startup-news" class="bg-gradient-to-b from-gray-100 to-white py-32">
+        <section id="startup-news" class="bg-gradient-to-b from-gray-100 to-white py-32 opacity-0 transition-opacity duration-1000 translate-y-4 section-animate">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="text-center mb-16">
                     <span class="text-blue-600 font-semibold text-lg mb-4 block">Stay Informed</span>
@@ -399,6 +399,25 @@
                 </div>
             </div>
         </section>
+
+        <section id="investors" class="bg-gradient-to-b from-white to-gray-50 py-24 opacity-0 transition-opacity duration-1000 translate-y-4 section-animate">
+            <div class="max-w-3xl mx-auto px-4 text-center">
+                <span class="text-blue-600 font-semibold text-lg mb-4 block">Limited Partners</span>
+                <h2 class="text-4xl font-bold text-gray-900 mb-6">Invest With Us</h2>
+                <div class="w-24 h-1 bg-blue-600 mx-auto mb-8"></div>
+                <p class="text-xl text-gray-600 mb-12">
+                    Join our community of forward-thinking Limited Partners who are helping to shape the future of technology and innovation.
+                </p>
+                <a href="mailto:invest@fcv.vc" 
+                   class="inline-flex items-center px-8 py-4 bg-blue-600 text-white rounded-xl text-lg font-semibold hover:bg-blue-700 transition-all transform hover:-translate-y-1 hover:shadow-lg">
+                    <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+                    </svg>
+                    Contact Investor Relations
+                </a>
+            </div>
+        </section>
+
     </div>
 
     <footer class="bg-gray-800 text-white py-8">

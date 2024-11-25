@@ -55,3 +55,23 @@ updateNews();
 
 // Refresh news every hour
 setInterval(updateNews, 3600000);
+
+// Add section animations
+const observerOptions = {
+    root: null,
+    rootMargin: '0px',
+    threshold: 0.1
+};
+
+const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            entry.target.classList.remove('opacity-0', 'translate-y-4');
+            observer.unobserve(entry.target);
+        }
+    });
+}, observerOptions);
+
+document.querySelectorAll('.section-animate').forEach((section) => {
+    observer.observe(section);
+});
