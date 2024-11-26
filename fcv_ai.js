@@ -7,7 +7,7 @@ async function fetchHackerNews() {
         const topStoriesResponse = await fetch('https://hacker-news.firebaseio.com/v0/topstories.json');
         const topStoryIds = await topStoriesResponse.json();
 
-        const storyPromises = topStoryIds.slice(0, 10).map(id =>
+        const storyPromises = topStoryIds.slice(0, 20).map(id =>  // Changed from 10 to 20
             fetch(`https://hacker-news.firebaseio.com/v0/item/${id}.json`).then(res => res.json())
         );
 
@@ -18,42 +18,123 @@ async function fetchHackerNews() {
     }
 }
 
+let currentSlide = 0;
+let totalSlides = 0;
+
 async function updateNews() {
+    const newsContainer = document.getElementById('news-container');
+    const newsSkeleton = document.getElementById('news-skeleton');
+    const newsDate = document.getElementById('news-date');
+
     newsSkeleton.style.display = 'block';
-    newsContainer.textContent = '';
+    newsContainer.innerHTML = '';
     newsDate.textContent = '';
 
     const stories = await fetchHackerNews();
     if (stories.length > 0) {
         newsSkeleton.style.display = 'none';
 
-        const storyList = stories.map(story => {
-            const link = story.url ? `<a href="${story.url}" target="_blank" rel="noopener noreferrer" class="text-blue-600 hover:underline">Read more</a>` : '';
-            const userLink = `<a href="https://news.ycombinator.com/user?id=${story.by}" target="_blank" rel="noopener noreferrer" class="text-blue-600 hover:underline">${story.by}</a>`;
-            return `<li class="mb-4">
-                <strong>${story.title}</strong> <span class="text-sm text-gray-500">(Score: ${story.score})</span><br>
-                by ${userLink} | ${link}
-            </li>`;
-        }).join('');
+        // Create slides with 5 stories each instead of 3
+        const slidesHTML = [];
+        for (let i = 0; i < stories.length; i += 5) {  // Changed from 3 to 5
+            const slideStories = stories.slice(i, i + 5);
+            const storyList = slideStories.map(story => {
+                const link = story.url ? `<a href="${story.url}" target="_blank" rel="noopener noreferrer" class="text-blue-600 hover:underline">Read more</a>` : '';
+                const userLink = `<a href="https://news.ycombinator.com/user?id=${story.by}" target="_blank" rel="noopener noreferrer" class="text-blue-600 hover:underline">${story.by}</a>`;
+                return `<div class="mb-4 last:mb-0 pb-4 border-b last:border-b-0">  <!-- Added border between stories -->
+                    <h3 class="font-semibold text-lg mb-2">${story.title}</h3>
+                    <p class="text-sm text-gray-600">Posted by ${userLink}</p>
+                    <div class="mt-2 flex justify-between items-center">
+                        <span class="text-sm text-gray-500">Score: ${story.score}</span>
+                        ${link}
+                    </div>
+                </div>`;
+            }).join('');
 
-        newsContainer.innerHTML = `<ol class="list-decimal list-inside">${storyList}</ol>`;
+            slidesHTML.push(`<div class="carousel-slide w-full flex-shrink-0 px-4">${storyList}</div>`);
+        }
+
+        newsContainer.innerHTML = slidesHTML.join('');
+        totalSlides = slidesHTML.length;
+
+        // Update carousel indicators
+        updateCarouselIndicators();
 
         const currentDate = new Date().toLocaleDateString('en-US', {
             year: 'numeric',
             month: 'long',
             day: 'numeric'
         });
-        newsDate.textContent = `HN Top 10 - ${currentDate} (auto-updates)`;
-    } else {
-        newsSkeleton.style.display = 'none';
-        newsContainer.textContent = "No startup news available at this time.";
+        newsDate.textContent = `HN Top Stories - ${currentDate}`;
     }
 }
 
-// Initial load
+function updateCarouselIndicators() {
+    const indicatorsContainer = document.getElementById('carousel-indicators');
+    indicatorsContainer.innerHTML = '';
+
+    for (let i = 0; i < totalSlides; i++) {
+        const indicator = document.createElement('button');
+        indicator.className = `w-2 h-2 rounded-full transition-all duration-300 ${i === currentSlide ? 'bg-blue-600 w-4' : 'bg-gray-300'}`;
+        indicator.onclick = () => goToSlide(i);
+        indicatorsContainer.appendChild(indicator);
+    }
+}
+
+function goToSlide(index) {
+    const track = document.getElementById('news-container');
+    currentSlide = index;
+    track.style.transform = `translateX(-${currentSlide * 100}%)`;
+    updateCarouselIndicators();
+}
+
+function setupCarouselControls() {
+    document.getElementById('prev-slide').addEventListener('click', () => {
+        if (currentSlide > 0) {
+            goToSlide(currentSlide - 1);
+        }
+    });
+
+    document.getElementById('next-slide').addEventListener('click', () => {
+        if (currentSlide < totalSlides - 1) {
+            goToSlide(currentSlide + 1);
+        }
+    });
+}
+
+// Add touch support for mobile
+let touchStartX = 0;
+let touchEndX = 0;
+
+document.querySelector('.carousel-container').addEventListener('touchstart', e => {
+    touchStartX = e.changedTouches[0].screenX;
+}, false);
+
+document.querySelector('.carousel-container').addEventListener('touchend', e => {
+    touchEndX = e.changedTouches[0].screenX;
+    handleSwipe();
+}, false);
+
+function handleSwipe() {
+    const swipeThreshold = 50;
+    const diff = touchStartX - touchEndX;
+
+    if (Math.abs(diff) > swipeThreshold) {
+        if (diff > 0 && currentSlide < totalSlides - 1) {
+            // Swipe left
+            goToSlide(currentSlide + 1);
+        } else if (diff < 0 && currentSlide > 0) {
+            // Swipe right
+            goToSlide(currentSlide - 1);
+        }
+    }
+}
+
+// Initialize carousel
+setupCarouselControls();
 updateNews();
 
-// Refresh news every 10 minutes
+// Auto-update news every 10 minutes
 setInterval(updateNews, 600000);
 
 // Add section animations

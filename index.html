@@ -491,7 +491,8 @@
                         <div class="flex flex-wrap justify-center gap-2 mb-4">
                             <span class="px-2 py-1 bg-blue-50 text-blue-600 rounded-full text-sm">Fintech</span>
                             <span class="px-2 py-1 bg-blue-50 text-blue-600 rounded-full text-sm">AI/ML</span>
-                            <span class="px-2 py-1 bg-blue-50 text-blue-600 rounded-full text-sm">EV/Infrastructure</span>
+                            <span
+                                class="px-2 py-1 bg-blue-50 text-blue-600 rounded-full text-sm">EV/Infrastructure</span>
                             <span class="px-2 py-1 bg-blue-50 text-blue-600 rounded-full text-sm">Health/Bio</span>
                         </div>
                         <div class="flex justify-center space-x-4">
@@ -635,15 +636,37 @@
                     <div class="w-24 h-1 bg-blue-600 mx-auto mb-8"></div>
                     <p class="text-xl text-gray-600" id="news-date"></p>
                 </div>
-                <div class="bg-white rounded-xl shadow-xl p-8 max-w-4xl mx-auto border border-gray-100">
-                    <div id="news-container" class="text-lg text-gray-700">
-                        <div id="news-skeleton" class="space-y-4">
-                            <div class="h-4 bg-gray-200 rounded w-3/4"></div>
-                            <div class="h-4 bg-gray-200 rounded w-5/6"></div>
-                            <div class="h-4 bg-gray-200 rounded w-2/3"></div>
-                            <div class="h-4 bg-gray-200 rounded w-4/5"></div>
-                            <div class="h-4 bg-gray-200 rounded w-3/4"></div>
+                <div class="relative bg-white rounded-xl shadow-xl p-8 max-w-4xl mx-auto border border-gray-100">
+                    <div class="carousel-container overflow-hidden">
+                        <div id="news-container"
+                            class="carousel-track flex transition-transform duration-300 ease-in-out">
+                            <div id="news-skeleton" class="w-full flex-shrink-0 space-y-4">
+                                <div class="h-4 bg-gray-200 rounded w-3/4"></div>
+                                <div class="h-4 bg-gray-200 rounded w-5/6"></div>
+                                <div class="h-4 bg-gray-200 rounded w-2/3"></div>
+                                <div class="h-4 bg-gray-200 rounded w-4/5"></div>
+                                <div class="h-4 bg-gray-200 rounded w-3/4"></div>
+                            </div>
                         </div>
+                    </div>
+
+                    <!-- Carousel Navigation -->
+                    <div class="flex justify-between items-center mt-6">
+                        <button id="prev-slide"
+                            class="carousel-button bg-blue-600 text-white p-2 rounded-full hover:bg-blue-700 transition-colors">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M15 19l-7-7 7-7" />
+                            </svg>
+                        </button>
+                        <div id="carousel-indicators" class="flex space-x-2 justify-center"></div>
+                        <button id="next-slide"
+                            class="carousel-button bg-blue-600 text-white p-2 rounded-full hover:bg-blue-700 transition-colors">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M9 5l7 7-7 7" />
+                            </svg>
+                        </button>
                     </div>
                 </div>
             </div>
@@ -660,10 +683,9 @@
                     technology and innovation.
                 </p>
                 <p class="text-sm text-gray-500 mb-12">
-                    Note: Investment in our fund is limited to Accredited Investors as defined by the SEC. 
-                    <a href="https://www.sec.gov/resources-small-businesses/capital-raising-building-blocks/accredited-investors" 
-                       target="_blank" 
-                       class="text-blue-600 hover:text-blue-800 underline">
+                    Note: Investment in our fund is limited to Accredited Investors as defined by the SEC.
+                    <a href="https://www.sec.gov/resources-small-businesses/capital-raising-building-blocks/accredited-investors"
+                        target="_blank" class="text-blue-600 hover:text-blue-800 underline">
                         Learn more about Accredited Investor requirements
                     </a>
                 </p>
