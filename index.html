@@ -57,18 +57,25 @@
     <link rel="manifest" href="assets/images/site.webmanifest">
 
     <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            // ...rest of your tailwind config if any
+        }
+    </script>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 </head>
 
-<body class="bg-gray-100 font-sans text-gray-800">
+<body class="bg-gray-100 dark:bg-gray-900 font-sans text-gray-800 dark:text-gray-200">
     <div id="llm-background" class="fixed inset-0 z-0 opacity-10 pointer-events-none"></div>
 
-    <nav class="bg-white/80 backdrop-blur-md fixed w-full z-50 top-0 shadow-sm">
+    <!-- Fix navbar text colors -->
+    <nav class="bg-white/80 dark:bg-gray-800/80 backdrop-blur-md fixed w-full z-50 top-0 shadow-sm">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between h-16 items-center">
                 <div class="flex-shrink-0">
-                    <a href="#" class="text-xl font-bold text-blue-600">FCV</a>
+                    <a href="#" class="text-xl font-bold text-blue-600 dark:text-blue-400">FCV</a>
                 </div>
                 <!-- Mobile menu button -->
                 <div class="md:hidden">
@@ -80,9 +87,17 @@
                     </button>
                 </div>
                 <div class="hidden md:flex items-center space-x-8">
-                    <a href="#portfolio" class="text-gray-700 hover:text-blue-600 transition-colors">Portfolio</a>
-                    <a href="#team" class="text-gray-700 hover:text-blue-600 transition-colors">Team</a>
-                    <a href="#startup-news" class="text-gray-700 hover:text-blue-600 transition-colors">News</a>
+                    <button id="theme-toggle" class="text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg text-sm p-2.5">
+                        <svg id="theme-toggle-dark-icon" class="hidden w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                            <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path>
+                        </svg>
+                        <svg id="theme-toggle-light-icon" class="hidden w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                            <path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z"></path>
+                        </svg>
+                    </button>
+                    <a href="#portfolio" class="text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Portfolio</a>
+                    <a href="#team" class="text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Team</a>
+                    <a href="#startup-news" class="text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors">News</a>
                     <button onclick="window.location.href='#investors';"
                         class="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition-colors">
                         Invest With Us
@@ -95,13 +110,13 @@
             </div>
         </div>
 
-        <!-- Mobile menu -->
-        <div id="mobile-menu" class="hidden md:hidden bg-white/95 backdrop-blur-md">
+        <!-- Fix mobile menu -->
+        <div id="mobile-menu" class="hidden md:hidden bg-white/95 dark:bg-gray-800/95 backdrop-blur-md">
             <div class="px-4 pt-2 pb-3 space-y-3">
                 <a href="#portfolio"
-                    class="block text-gray-700 hover:text-blue-600 transition-colors py-2">Portfolio</a>
-                <a href="#team" class="block text-gray-700 hover:text-blue-600 transition-colors py-2">Team</a>
-                <a href="#startup-news" class="block text-gray-700 hover:text-blue-600 transition-colors py-2">News</a>
+                    class="block text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors py-2">Portfolio</a>
+                <a href="#team" class="block text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors py-2">Team</a>
+                <a href="#startup-news" class="block text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors py-2">News</a>
                 <button onclick="window.location.href='#investors';"
                     class="w-full text-left bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition-colors mb-2">
                     Invest With Us
@@ -120,7 +135,7 @@
                 class="text-4xl md:text-7xl font-bold mb-4 md:mb-8 bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-indigo-600">
                 Founders Committee Ventures
             </h1>
-            <p class="text-lg md:text-2xl text-gray-600 mb-6 md:mb-12 max-w-3xl mx-auto px-4">
+            <p class="text-lg md:text-2xl text-gray-600 dark:text-gray-300 mb-6 md:mb-12 max-w-3xl mx-auto px-4">
                 We invest in exceptional founders building category-defining companies.
                 From pre-seed to IPO, we're here to support the next generation of innovators.
             </p>
@@ -144,15 +159,15 @@
             class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 opacity-0 transition-opacity duration-1000 translate-y-4 section-animate">
             <div class="text-center">
                 <h2 class="text-4xl font-bold text-gray-900 mb-4">Select Investments</h2>
-                <p class="text-xl text-gray-600 max-w-2xl mx-auto mb-12">We back exceptional founders from idea to IPO
+                <p class="text-xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto mb-12">We back exceptional founders from idea to IPO
                 </p>
             </div>
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                 <div
-                    class="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-2xl transition-shadow duration-300 transform hover:-translate-y-1">
+                    class="bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden hover:shadow-2xl transition-shadow duration-300 transform hover:-translate-y-1">
                     <div class="p-8">
-                        <h3 class="text-2xl font-semibold text-gray-900 mb-3">Dorothy</h3>
-                        <p class="text-gray-600 mb-4">AI-powered journey for home design and renovation</p>
+                        <h3 class="text-2xl font-semibold text-gray-900 dark:text-white mb-3">Dorothy</h3>
+                        <p class="text-gray-600 dark:text-gray-300 mb-4">AI-powered journey for home design and renovation</p>
                         <div class="space-y-2">
                             <span
                                 class="inline-block px-3 py-1 text-sm font-medium bg-purple-100 text-purple-800 rounded-full mr-2">Pre-Seed</span>
@@ -162,7 +177,7 @@
                     </div>
                     <div class="px-8 pb-6">
                         <a href="https://hidorothy.com" target="_blank" rel="noopener noreferrer"
-                            class="text-blue-600 hover:text-blue-800 font-medium flex items-center">
+                            class="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 font-medium flex items-center">
                             Visit Website <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor"
                                 viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7">
@@ -173,10 +188,10 @@
                 </div>
 
                 <div
-                    class="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-2xl transition-shadow duration-300 transform hover:-translate-y-1">
+                    class="bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden hover:shadow-2xl transition-shadow duration-300 transform hover:-translate-y-1">
                     <div class="p-8">
-                        <h3 class="text-2xl font-semibold text-gray-900 mb-3">Bits Crypto</h3>
-                        <p class="text-gray-600 mb-4">Acquired by Tronic</p>
+                        <h3 class="text-2xl font-semibold text-gray-900 dark:text-white mb-3">Bits Crypto</h3>
+                        <p class="text-gray-600 dark:text-gray-300 mb-4">Acquired by Tronic</p>
                         <div class="space-y-2">
                             <span
                                 class="inline-block px-3 py-1 text-sm font-medium bg-purple-100 text-purple-800 rounded-full mr-2">Pre-Seed</span>
@@ -186,7 +201,7 @@
                     </div>
                     <div class="px-8 pb-6">
                         <a href="https://tronic.app" target="_blank" rel="noopener noreferrer"
-                            class="text-blue-600 hover:text-blue-800 font-medium flex items-center">
+                            class="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 font-medium flex items-center">
                             Visit Acquirer <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor"
                                 viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7">
@@ -197,10 +212,10 @@
                 </div>
 
                 <div
-                    class="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-2xl transition-shadow duration-300 transform hover:-translate-y-1">
+                    class="bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden hover:shadow-2xl transition-shadow duration-300 transform hover:-translate-y-1">
                     <div class="p-8">
-                        <h3 class="text-2xl font-semibold text-gray-900 mb-3">US Bitcoin</h3>
-                        <p class="text-gray-600 mb-4">Merged with Hut 8 Mining Corp</p>
+                        <h3 class="text-2xl font-semibold text-gray-900 dark:text-white mb-3">US Bitcoin</h3>
+                        <p class="text-gray-600 dark:text-gray-300 mb-4">Merged with Hut 8 Mining Corp</p>
                         <div class="space-y-2">
                             <span
                                 class="inline-block px-3 py-1 text-sm font-medium bg-blue-100 text-blue-800 rounded-full mr-2">Series
@@ -212,7 +227,7 @@
                     </div>
                     <div class="px-8 pb-6">
                         <a href="https://hut8.io" target="_blank" rel="noopener noreferrer"
-                            class="text-blue-600 hover:text-blue-800 font-medium flex items-center">
+                            class="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 font-medium flex items-center">
                             Visit Website <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor"
                                 viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7">
@@ -223,10 +238,10 @@
                 </div>
 
                 <div
-                    class="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-2xl transition-shadow duration-300 transform hover:-translate-y-1">
+                    class="bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden hover:shadow-2xl transition-shadow duration-300 transform hover:-translate-y-1">
                     <div class="p-8">
-                        <h3 class="text-2xl font-semibold text-gray-900 mb-3">Otherwise Brewing</h3>
-                        <p class="text-gray-600 mb-4">Gluten-free craft brewery</p>
+                        <h3 class="text-2xl font-semibold text-gray-900 dark:text-white mb-3">Otherwise Brewing</h3>
+                        <p class="text-gray-600 dark:text-gray-300 mb-4">Gluten-free craft brewery</p>
                         <div class="space-y-2">
                             <span
                                 class="inline-block px-3 py-1 text-sm font-medium bg-purple-100 text-purple-800 rounded-full mr-2">Pre-Seed</span>
@@ -236,7 +251,7 @@
                     </div>
                     <div class="px-8 pb-6">
                         <a href="https://www.otherwisebrewing.com" target="_blank" rel="noopener noreferrer"
-                            class="text-blue-600 hover:text-blue-800 font-medium flex items-center">
+                            class="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 font-medium flex items-center">
                             Visit Website <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor"
                                 viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7">
@@ -247,10 +262,10 @@
                 </div>
 
                 <div
-                    class="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-2xl transition-shadow duration-300 transform hover:-translate-y-1">
+                    class="bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden hover:shadow-2xl transition-shadow duration-300 transform hover:-translate-y-1">
                     <div class="p-8">
-                        <h3 class="text-2xl font-semibold text-gray-900 mb-3">Return Brewing</h3>
-                        <p class="text-gray-600 mb-4">Craft brewery focused on unique flavors</p>
+                        <h3 class="text-2xl font-semibold text-gray-900 dark:text-white mb-3">Return Brewing</h3>
+                        <p class="text-gray-600 dark:text-gray-300 mb-4">Craft brewery focused on unique flavors</p>
                         <div class="space-y-2">
                             <span
                                 class="inline-block px-3 py-1 text-sm font-medium bg-purple-100 text-purple-800 rounded-full mr-2">Pre-Seed</span>
@@ -260,7 +275,7 @@
                     </div>
                     <div class="px-8 pb-6">
                         <a href="https://returnbrewing.com" target="_blank" rel="noopener noreferrer"
-                            class="text-blue-600 hover:text-blue-800 font-medium flex items-center">
+                            class="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 font-medium flex items-center">
                             Visit Website <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor"
                                 viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7">
@@ -271,10 +286,10 @@
                 </div>
 
                 <div
-                    class="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-2xl transition-shadow duration-300 transform hover:-translate-y-1">
+                    class="bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden hover:shadow-2xl transition-shadow duration-300 transform hover:-translate-y-1">
                     <div class="p-8">
-                        <h3 class="text-2xl font-semibold text-gray-900 mb-3">EvaBot</h3>
-                        <p class="text-gray-600 mb-4">AI-powered corporate gifting platform</p>
+                        <h3 class="text-2xl font-semibold text-gray-900 dark:text-white mb-3">EvaBot</h3>
+                        <p class="text-gray-600 dark:text-gray-300 mb-4">AI-powered corporate gifting platform</p>
                         <div class="space-y-2">
                             <span
                                 class="inline-block px-3 py-1 text-sm font-medium bg-indigo-100 text-indigo-800 rounded-full mr-2">Seed</span>
@@ -284,7 +299,7 @@
                     </div>
                     <div class="px-8 pb-6">
                         <a href="https://evabot.com" target="_blank" rel="noopener noreferrer"
-                            class="text-blue-600 hover:text-blue-800 font-medium flex items-center">
+                            class="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 font-medium flex items-center">
                             Visit Website <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor"
                                 viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7">
@@ -295,10 +310,10 @@
                 </div>
 
                 <div
-                    class="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-2xl transition-shadow duration-300 transform hover:-translate-y-1">
+                    class="bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden hover:shadow-2xl transition-shadow duration-300 transform hover:-translate-y-1">
                     <div class="p-8">
-                        <h3 class="text-2xl font-semibold text-gray-900 mb-3">Autority</h3>
-                        <p class="text-gray-600 mb-4">Next-generation automotive platform</p>
+                        <h3 class="text-2xl font-semibold text-gray-900 dark:text-white mb-3">Autority</h3>
+                        <p class="text-gray-600 dark:text-gray-300 mb-4">Next-generation automotive platform</p>
                         <div class="space-y-2">
                             <span
                                 class="inline-block px-3 py-1 text-sm font-medium bg-purple-100 text-purple-800 rounded-full mr-2">Pre-Seed</span>
@@ -308,7 +323,7 @@
                     </div>
                     <div class="px-8 pb-6">
                         <a href="https://autority.io" target="_blank" rel="noopener noreferrer"
-                            class="text-blue-600 hover:text-blue-800 font-medium flex items-center">
+                            class="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 font-medium flex items-center">
                             Visit Website <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor"
                                 viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7">
@@ -319,10 +334,10 @@
                 </div>
 
                 <div
-                    class="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-2xl transition-shadow duration-300 transform hover:-translate-y-1">
+                    class="bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden hover:shadow-2xl transition-shadow duration-300 transform hover:-translate-y-1">
                     <div class="p-8">
-                        <h3 class="text-2xl font-semibold text-gray-900 mb-3">Gumroad</h3>
-                        <p class="text-gray-600 mb-4">Platform for creators to sell digital products</p>
+                        <h3 class="text-2xl font-semibold text-gray-900 dark:text-white mb-3">Gumroad</h3>
+                        <p class="text-gray-600 dark:text-gray-300 mb-4">Platform for creators to sell digital products</p>
                         <div class="space-y-2">
                             <span
                                 class="inline-block px-3 py-1 text-sm font-medium bg-blue-100 text-blue-800 rounded-full mr-2">Series
@@ -333,7 +348,7 @@
                     </div>
                     <div class="px-8 pb-6">
                         <a href="https://gumroad.com" target="_blank" rel="noopener noreferrer"
-                            class="text-blue-600 hover:text-blue-800 font-medium flex items-center">
+                            class="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 font-medium flex items-center">
                             Visit Website <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor"
                                 viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7">
@@ -344,10 +359,10 @@
                 </div>
 
                 <div
-                    class="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-2xl transition-shadow duration-300 transform hover:-translate-y-1">
+                    class="bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden hover:shadow-2xl transition-shadow duration-300 transform hover:-translate-y-1">
                     <div class="p-8">
-                        <h3 class="text-2xl font-semibold text-gray-900 mb-3">Tribevest</h3>
-                        <p class="text-gray-600 mb-4">Group investment and management platform</p>
+                        <h3 class="text-2xl font-semibold text-gray-900 dark:text-white mb-3">Tribevest</h3>
+                        <p class="text-gray-600 dark:text-gray-300 mb-4">Group investment and management platform</p>
                         <div class="space-y-2">
                             <span
                                 class="inline-block px-3 py-1 text-sm font-medium bg-purple-100 text-purple-800 rounded-full mr-2">Pre-Seed</span>
@@ -357,7 +372,7 @@
                     </div>
                     <div class="px-8 pb-6">
                         <a href="https://tribevest.com" target="_blank" rel="noopener noreferrer"
-                            class="text-blue-600 hover:text-blue-800 font-medium flex items-center">
+                            class="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 font-medium flex items-center">
                             Visit Website <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor"
                                 viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7">
@@ -368,10 +383,10 @@
                 </div>
 
                 <div
-                    class="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-2xl transition-shadow duration-300 transform hover:-translate-y-1">
+                    class="bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden hover:shadow-2xl transition-shadow duration-300 transform hover:-translate-y-1">
                     <div class="p-8">
-                        <h3 class="text-2xl font-semibold text-gray-900 mb-3">Kredi</h3>
-                        <p class="text-gray-600 mb-4">Digital banking solutions</p>
+                        <h3 class="text-2xl font-semibold text-gray-900 dark:text-white mb-3">Kredi</h3>
+                        <p class="text-gray-600 dark:text-gray-300 mb-4">Digital banking solutions</p>
                         <div class="space-y-2">
                             <span
                                 class="inline-block px-3 py-1 text-sm font-medium bg-purple-100 text-purple-800 rounded-full mr-2">Pre-Seed</span>
@@ -381,7 +396,7 @@
                     </div>
                     <div class="px-8 pb-6">
                         <a href="https://thekredibank.com" target="_blank" rel="noopener noreferrer"
-                            class="text-blue-600 hover:text-blue-800 font-medium flex items-center">
+                            class="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 font-medium flex items-center">
                             Visit Website <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor"
                                 viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7">
@@ -392,10 +407,10 @@
                 </div>
 
                 <div
-                    class="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-2xl transition-shadow duration-300 transform hover:-translate-y-1">
+                    class="bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden hover:shadow-2xl transition-shadow duration-300 transform hover:-translate-y-1">
                     <div class="p-8">
-                        <h3 class="text-2xl font-semibold text-gray-900 mb-3">Together AI</h3>
-                        <p class="text-gray-600 mb-4">AI Collaboration for Startups, Talent and Investors</p>
+                        <h3 class="text-2xl font-semibold text-gray-900 dark:text-white mb-3">Together AI</h3>
+                        <p class="text-gray-600 dark:text-gray-300 mb-4">AI Collaboration for Startups, Talent and Investors</p>
                         <div class="space-y-2">
                             <span
                                 class="inline-block px-3 py-1 text-sm font-medium bg-purple-100 text-purple-800 rounded-full mr-2">Pre-Seed</span>
@@ -405,7 +420,7 @@
                     </div>
                     <div class="px-8 pb-6">
                         <a href="https://gotogether.ai" target="_blank" rel="noopener noreferrer"
-                            class="text-blue-600 hover:text-blue-800 font-medium flex items-center">
+                            class="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 font-medium flex items-center">
                             Visit Website <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor"
                                 viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7">
@@ -416,10 +431,10 @@
                 </div>
 
                 <div
-                    class="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-2xl transition-shadow duration-300 transform hover:-translate-y-1">
+                    class="bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden hover:shadow-2xl transition-shadow duration-300 transform hover:-translate-y-1">
                     <div class="p-8">
-                        <h3 class="text-2xl font-semibold text-gray-900 mb-3">Kitch</h3>
-                        <p class="text-gray-600 mb-4">Commercial Kitchen Marketplace</p>
+                        <h3 class="text-2xl font-semibold text-gray-900 dark:text-white mb-3">Kitch</h3>
+                        <p class="text-gray-600 dark:text-gray-300 mb-4">Commercial Kitchen Marketplace</p>
                         <div class="space-y-2">
                             <span
                                 class="inline-block px-3 py-1 text-sm font-medium bg-purple-100 text-purple-800 rounded-full mr-2">Pre-Seed</span>
@@ -429,7 +444,7 @@
                     </div>
                     <div class="px-8 pb-6">
                         <a href="http://usekitch.com" target="_blank" rel="noopener noreferrer"
-                            class="text-blue-600 hover:text-blue-800 font-medium flex items-center">
+                            class="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 font-medium flex items-center">
                             Visit Website <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor"
                                 viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7">
@@ -442,13 +457,13 @@
         </section>
 
         <section id="team"
-            class="bg-gradient-to-b from-white to-blue-50 py-32 opacity-0 transition-opacity duration-1000 translate-y-4 section-animate">
+            class="bg-gradient-to-b from-white dark:from-gray-800 to-blue-50 dark:to-gray-900 py-32 opacity-0 transition-opacity duration-1000 translate-y-4 section-animate">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="text-center mb-16">
                     <span class="text-blue-600 font-semibold text-lg mb-4 block">Meet The Team</span>
-                    <h2 class="text-5xl font-bold text-gray-900 mb-6">Our Team</h2>
+                    <h2 class="text-5xl font-bold text-gray-900 dark:text-white mb-6">Our Team</h2>
                     <div class="w-24 h-1 bg-blue-600 mx-auto mb-8"></div>
-                    <p class="text-xl text-gray-600 max-w-2xl mx-auto">We are experienced engineers, investors, and
+                    <p class="text-xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">We are experienced engineers, investors, and
                         operators helping founders build category-defining companies</p>
                 </div>
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12">
@@ -459,13 +474,13 @@
                                 alt="Daniel Merja"
                                 class="relative w-48 h-48 rounded-full object-cover border-4 border-white shadow-lg">
                         </div>
-                        <h3 class="text-2xl font-semibold text-gray-900 mb-2">Daniel Merja</h3>
-                        <p class="text-lg text-blue-600 mb-3">General Partner</p>
+                        <h3 class="text-2xl font-semibold text-gray-900 dark:text-white mb-2">Daniel Merja</h3>
+                        <p class="text-lg text-blue-600 dark:text-blue-400 mb-3">General Partner</p>
                         <div class="flex flex-wrap justify-center gap-2 mb-4">
-                            <span class="px-2 py-1 bg-blue-50 text-blue-600 rounded-full text-sm">AI/ML</span>
-                            <span class="px-2 py-1 bg-blue-50 text-blue-600 rounded-full text-sm">FinTech</span>
-                            <span class="px-2 py-1 bg-blue-50 text-blue-600 rounded-full text-sm">Enterprise</span>
-                            <span class="px-2 py-1 bg-blue-50 text-blue-600 rounded-full text-sm">Infra</span>
+                            <span class="px-2 py-1 bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 rounded-full text-sm">AI/ML</span>
+                            <span class="px-2 py-1 bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 rounded-full text-sm">FinTech</span>
+                            <span class="px-2 py-1 bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 rounded-full text-sm">Enterprise</span>
+                            <span class="px-2 py-1 bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 rounded-full text-sm">Infra</span>
                         </div>
                         <div class="flex justify-center space-x-4">
                             <a href="https://www.linkedin.com/in/danielmerja/" target="_blank"
@@ -486,14 +501,14 @@
                                 alt="Michael Bank"
                                 class="relative w-48 h-48 rounded-full object-cover border-4 border-white shadow-lg">
                         </div>
-                        <h3 class="text-2xl font-semibold text-gray-900 mb-2">Michael Bank</h3>
-                        <p class="text-lg text-blue-600 mb-3">Partner</p>
+                        <h3 class="text-2xl font-semibold text-gray-900 dark:text-white mb-2">Michael Bank</h3>
+                        <p class="text-lg text-blue-600 dark:text-blue-400 mb-3">Partner</p>
                         <div class="flex flex-wrap justify-center gap-2 mb-4">
-                            <span class="px-2 py-1 bg-blue-50 text-blue-600 rounded-full text-sm">Fintech</span>
-                            <span class="px-2 py-1 bg-blue-50 text-blue-600 rounded-full text-sm">AI/ML</span>
+                            <span class="px-2 py-1 bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 rounded-full text-sm">Fintech</span>
+                            <span class="px-2 py-1 bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 rounded-full text-sm">AI/ML</span>
                             <span
-                                class="px-2 py-1 bg-blue-50 text-blue-600 rounded-full text-sm">EV/Infrastructure</span>
-                            <span class="px-2 py-1 bg-blue-50 text-blue-600 rounded-full text-sm">Health/Bio</span>
+                                class="px-2 py-1 bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 rounded-full text-sm">EV/Infrastructure</span>
+                            <span class="px-2 py-1 bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 rounded-full text-sm">Health/Bio</span>
                         </div>
                         <div class="flex justify-center space-x-4">
                             <a href="https://www.linkedin.com/in/michaelbank1/" target="_blank"
@@ -514,11 +529,11 @@
                                 alt="Paytra Gessler"
                                 class="relative w-48 h-48 rounded-full object-cover border-4 border-white shadow-lg">
                         </div>
-                        <h3 class="text-2xl font-semibold text-gray-900 mb-2">Paytra Gessler</h3>
-                        <p class="text-lg text-blue-600 mb-3">Partner</p>
+                        <h3 class="text-2xl font-semibold text-gray-900 dark:text-white mb-2">Paytra Gessler</h3>
+                        <p class="text-lg text-blue-600 dark:text-blue-400 mb-3">Partner</p>
                         <div class="flex flex-wrap justify-center gap-2 mb-4">
-                            <span class="px-2 py-1 bg-blue-50 text-blue-600 rounded-full text-sm">Consumer</span>
-                            <span class="px-2 py-1 bg-blue-50 text-blue-600 rounded-full text-sm">Music</span>
+                            <span class="px-2 py-1 bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 rounded-full text-sm">Consumer</span>
+                            <span class="px-2 py-1 bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 rounded-full text-sm">Music</span>
                         </div>
                         <div class="flex justify-center space-x-4">
                             <a href="https://www.linkedin.com/in/paytragessler/" target="_blank"
@@ -543,11 +558,11 @@
                                 alt="Nicolas Galang"
                                 class="relative w-48 h-48 rounded-full object-cover border-4 border-white shadow-lg">
                         </div>
-                        <h3 class="text-2xl font-semibold text-gray-900 mb-2">Nicolas Galang</h3>
-                        <p class="text-lg text-blue-600 mb-3">Partner</p>
+                        <h3 class="text-2xl font-semibold text-gray-900 dark:text-white mb-2">Nicolas Galang</h3>
+                        <p class="text-lg text-blue-600 dark:text-blue-400 mb-3">Partner</p>
                         <div class="flex flex-wrap justify-center gap-2 mb-4">
-                            <span class="px-2 py-1 bg-blue-50 text-blue-600 rounded-full text-sm">AdTech</span>
-                            <span class="px-2 py-1 bg-blue-50 text-blue-600 rounded-full text-sm">Consumer</span>
+                            <span class="px-2 py-1 bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 rounded-full text-sm">AdTech</span>
+                            <span class="px-2 py-1 bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 rounded-full text-sm">Consumer</span>
                         </div>
                         <div class="flex justify-center space-x-4">
                             <a href="https://www.linkedin.com/in/n-galang/" target="_blank"
@@ -564,11 +579,11 @@
                                 alt="Jona Scott"
                                 class="relative w-48 h-48 rounded-full object-cover border-4 border-white shadow-lg">
                         </div>
-                        <h3 class="text-2xl font-semibold text-gray-900 mb-2">Jona Scott</h3>
-                        <p class="text-lg text-blue-600 mb-3">CTO</p>
+                        <h3 class="text-2xl font-semibold text-gray-900 dark:text-white mb-2">Jona Scott</h3>
+                        <p class="text-lg text-blue-600 dark:text-blue-400 mb-3">CTO</p>
                         <div class="flex flex-wrap justify-center gap-2 mb-4">
-                            <span class="px-2 py-1 bg-blue-50 text-blue-600 rounded-full text-sm">Infra</span>
-                            <span class="px-2 py-1 bg-blue-50 text-blue-600 rounded-full text-sm">AI/ML</span>
+                            <span class="px-2 py-1 bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 rounded-full text-sm">Infra</span>
+                            <span class="px-2 py-1 bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 rounded-full text-sm">AI/ML</span>
                         </div>
                         <div class="flex justify-center space-x-4">
                             <a href="https://www.linkedin.com/in/jona-scott/" target="_blank"
@@ -585,13 +600,13 @@
                                 alt="Teddy Kozlowski"
                                 class="relative w-48 h-48 rounded-full object-cover border-4 border-white shadow-lg">
                         </div>
-                        <h3 class="text-2xl font-semibold text-gray-900 mb-2">Teddy Kozlowski</h3>
-                        <p class="text-lg text-blue-600 mb-3">Partner</p>
+                        <h3 class="text-2xl font-semibold text-gray-900 dark:text-white mb-2">Teddy Kozlowski</h3>
+                        <p class="text-lg text-blue-600 dark:text-blue-400 mb-3">Partner</p>
                         <div class="flex flex-wrap justify-center gap-2 mb-4">
-                            <span class="px-2 py-1 bg-blue-50 text-blue-600 rounded-full text-sm">Web3</span>
-                            <span class="px-2 py-1 bg-blue-50 text-blue-600 rounded-full text-sm">AI/ML</span>
-                            <span class="px-2 py-1 bg-blue-50 text-blue-600 rounded-full text-sm">FinTech</span>
-                            <span class="px-2 py-1 bg-blue-50 text-blue-600 rounded-full text-sm">Consumer</span>
+                            <span class="px-2 py-1 bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 rounded-full text-sm">Web3</span>
+                            <span class="px-2 py-1 bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 rounded-full text-sm">AI/ML</span>
+                            <span class="px-2 py-1 bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 rounded-full text-sm">FinTech</span>
+                            <span class="px-2 py-1 bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 rounded-full text-sm">Consumer</span>
                         </div>
                         <div class="flex justify-center space-x-4">
                             <a href="https://www.linkedin.com/in/theodore-kozlowski/" target="_blank"
@@ -608,35 +623,36 @@
                                 alt="Jonathan S."
                                 class="relative w-48 h-48 rounded-full object-cover border-4 border-white shadow-lg">
                         </div>
-                        <h3 class="text-2xl font-semibold text-gray-900 mb-2">Jonathan S.</h3>
-                        <p class="text-lg text-blue-600 mb-3">Partner</p>
+                        <h3 class="text-2xl font-semibold text-gray-900 dark:text-white mb-2">Jonathan S.</h3>
+                        <p class="text-lg text-blue-600 dark:text-blue-400 mb-3">Partner</p>
                         <div class="flex flex-wrap justify-center gap-2 mb-4">
-                            <span class="px-2 py-1 bg-blue-50 text-blue-600 rounded-full text-sm">FinTech</span>
-                            <span class="px-2 py-1 bg-blue-50 text-blue-600 rounded-full text-sm">Web3</span>
-                            <span class="px-2 py-1 bg-blue-50 text-blue-600 rounded-full text-sm">Consumer</span>
+                            <span class="px-2 py-1 bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 rounded-full text-sm">FinTech</span>
+                            <span class="px-2 py-1 bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 rounded-full text-sm">Web3</span>
+                            <span class="px-2 py-1 bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 rounded-full text-sm">Consumer</span>
                         </div>
                     </div>
                 </div>
             </div>
         </section>
 
+        <!-- Fix divider between team and news sections -->
         <div class="relative">
-            <div class="absolute inset-0 bg-gradient-to-b from-blue-50 to-gray-100"></div>
+            <div class="absolute inset-0 bg-gradient-to-b from-blue-50 dark:from-gray-800 to-gray-100 dark:to-gray-900"></div>
             <div class="relative max-w-7xl mx-auto py-24">
-                <div class="w-full h-px bg-gradient-to-r from-transparent via-gray-300 to-transparent"></div>
+                <div class="w-full h-px bg-gradient-to-r from-transparent via-gray-300 dark:via-gray-600 to-transparent"></div>
             </div>
         </div>
 
         <section id="startup-news"
-            class="bg-gradient-to-b from-gray-100 to-white py-32 opacity-0 transition-opacity duration-1000 translate-y-4 section-animate">
+            class="bg-gradient-to-b from-gray-100 dark:from-gray-900 to-white dark:to-gray-800 py-32 opacity-0 transition-opacity duration-1000 translate-y-4 section-animate">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="text-center mb-16">
                     <span class="text-blue-600 font-semibold text-lg mb-4 block">Stay Informed</span>
-                    <h2 class="text-5xl font-bold text-gray-900 mb-6">Latest from Hacker News</h2>
+                    <h2 class="text-5xl font-bold text-gray-900 dark:text-white mb-6">Latest from Hacker News</h2>
                     <div class="w-24 h-1 bg-blue-600 mx-auto mb-8"></div>
                     <p class="text-xl text-gray-600" id="news-date"></p>
                 </div>
-                <div class="relative bg-white rounded-xl shadow-xl p-8 max-w-4xl mx-auto border border-gray-100">
+                <div class="relative bg-white dark:bg-gray-800 rounded-xl shadow-xl p-8 max-w-4xl mx-auto border border-gray-100 dark:border-gray-700">
                     <div class="carousel-container overflow-hidden">
                         <div id="news-container"
                             class="carousel-track flex transition-transform duration-300 ease-in-out">
@@ -673,19 +689,19 @@
         </section>
 
         <section id="investors"
-            class="bg-gradient-to-b from-white to-gray-50 py-24 opacity-0 transition-opacity duration-1000 translate-y-4 section-animate">
+            class="bg-gradient-to-b from-white dark:from-gray-800 to-gray-50 dark:to-gray-900 py-24 opacity-0 transition-opacity duration-1000 translate-y-4 section-animate">
             <div class="max-w-3xl mx-auto px-4 text-center">
-                <span class="text-blue-600 font-semibold text-lg mb-4 block">Limited Partners</span>
-                <h2 class="text-4xl font-bold text-gray-900 mb-6">Invest With Us</h2>
+                <span class="text-blue-600 dark:text-blue-400 font-semibold text-lg mb-4 block">Limited Partners</span>
+                <h2 class="text-4xl font-bold text-gray-900 dark:text-white mb-6">Invest With Us</h2>
                 <div class="w-24 h-1 bg-blue-600 mx-auto mb-8"></div>
-                <p class="text-xl text-gray-600 mb-6">
+                <p class="text-xl text-gray-600 dark:text-gray-300 mb-6">
                     Join our network of forward-thinking Limited Partners who are helping to shape the future of
                     technology and innovation.
                 </p>
-                <p class="text-sm text-gray-500 mb-12">
+                <p class="text-sm text-gray-500 dark:text-gray-400 mb-12">
                     Note: Investment in our fund is limited to Accredited Investors as defined by the SEC.
                     <a href="https://www.sec.gov/resources-small-businesses/capital-raising-building-blocks/accredited-investors"
-                        target="_blank" class="text-blue-600 hover:text-blue-800 underline">
+                        target="_blank" class="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 underline">
                         Learn more about Accredited Investor requirements
                     </a>
                 </p>
@@ -702,7 +718,7 @@
 
     </div>
 
-    <footer class="bg-gray-800 text-white py-8">
+    <footer class="bg-gray-800 dark:bg-gray-900 text-white py-8">
         <div class="container mx-auto px-4 text-center">
             <div class="social-icons mb-4">
                 <a href="https://linkedin.com/company/founderscommittee" target="_blank"

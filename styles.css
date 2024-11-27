@@ -169,3 +169,62 @@ footer {
     margin: 0 0.5rem;
     font-size: 1.2rem;
 }
+
+/* Dark mode styles */
+.dark body {
+    background-color: #111827;
+    color: #e5e7eb;
+}
+
+.dark .container {
+    background-color: rgba(17, 24, 39, 0.8);
+}
+
+.dark h1, .dark h2 {
+    color: #f3f4f6;
+}
+
+.dark .tagline {
+    color: #9ca3af;
+}
+
+.dark .portfolio-item {
+    background: #1f2937;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.dark .llm-sentence {
+    color: #3b82f6;
+}
+
+.dark #llm-background {
+    opacity: 0.05;
+}
+
+.dark footer {
+    background-color: #111827;
+}
+
+.dark .social-icons a {
+    color: #60a5fa;
+}
+
+.dark .social-icons a:hover {
+    color: #93c5fd;
+}
+
+/* Update badge colors for dark mode */
+.dark .team-member span {
+    background-color: rgba(59, 130, 246, 0.1);
+    color: #60a5fa;
+}
+
+.dark .portfolio-item span {
+    background-color: rgba(59, 130, 246, 0.1);
+    color: #60a5fa;
+}
+
+/* Add gradient styles for dark mode */
+.dark .bg-gradient-divider {
+    background: linear-gradient(180deg, #1f2937 0%, #111827 100%);
+}

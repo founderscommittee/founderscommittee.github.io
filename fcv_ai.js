@@ -1,3 +1,38 @@
+// Dark mode initialization
+function initDarkMode() {
+    const themeToggleDarkIcon = document.getElementById('theme-toggle-dark-icon');
+    const themeToggleLightIcon = document.getElementById('theme-toggle-light-icon');
+    const themeToggleBtn = document.getElementById('theme-toggle');
+
+    // Change the icons inside the button based on previous settings
+    if (localStorage.getItem('color-theme') === 'dark' || 
+        (!('color-theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+        themeToggleLightIcon.classList.remove('hidden');
+        document.documentElement.classList.add('dark');
+    } else {
+        themeToggleDarkIcon.classList.remove('hidden');
+    }
+
+    // Toggle theme button
+    themeToggleBtn.addEventListener('click', function() {
+        // Toggle icons
+        themeToggleDarkIcon.classList.toggle('hidden');
+        themeToggleLightIcon.classList.toggle('hidden');
+
+        // Toggle dark class on html element
+        if (document.documentElement.classList.contains('dark')) {
+            document.documentElement.classList.remove('dark');
+            localStorage.setItem('color-theme', 'light');
+        } else {
+            document.documentElement.classList.add('dark');
+            localStorage.setItem('color-theme', 'dark');
+        }
+    });
+}
+
+// Initialize dark mode
+initDarkMode();
+
 const newsContainer = document.getElementById('news-container');
 const newsSkeleton = document.getElementById('news-skeleton');
 const newsDate = document.getElementById('news-date');
@@ -39,13 +74,13 @@ async function updateNews() {
         for (let i = 0; i < stories.length; i += 5) {  // Changed from 3 to 5
             const slideStories = stories.slice(i, i + 5);
             const storyList = slideStories.map(story => {
-                const link = story.url ? `<a href="${story.url}" target="_blank" rel="noopener noreferrer" class="text-blue-600 hover:underline">Read more</a>` : '';
-                const userLink = `<a href="https://news.ycombinator.com/user?id=${story.by}" target="_blank" rel="noopener noreferrer" class="text-blue-600 hover:underline">${story.by}</a>`;
-                return `<div class="mb-4 last:mb-0 pb-4 border-b last:border-b-0">  <!-- Added border between stories -->
-                    <h3 class="font-semibold text-lg mb-2">${story.title}</h3>
-                    <p class="text-sm text-gray-600">Posted by ${userLink}</p>
+                const link = story.url ? `<a href="${story.url}" target="_blank" rel="noopener noreferrer" class="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300">Read more</a>` : '';
+                const userLink = `<a href="https://news.ycombinator.com/user?id=${story.by}" target="_blank" rel="noopener noreferrer" class="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300">${story.by}</a>`;
+                return `<div class="mb-4 last:mb-0 pb-4 border-b border-gray-200 dark:border-gray-700 last:border-b-0">
+                    <h3 class="font-semibold text-lg mb-2 text-gray-900 dark:text-white">${story.title}</h3>
+                    <p class="text-sm text-gray-600 dark:text-gray-400">Posted by ${userLink}</p>
                     <div class="mt-2 flex justify-between items-center">
-                        <span class="text-sm text-gray-500">Score: ${story.score}</span>
+                        <span class="text-sm text-gray-500 dark:text-gray-400">Score: ${story.score}</span>
                         ${link}
                     </div>
                 </div>`;
