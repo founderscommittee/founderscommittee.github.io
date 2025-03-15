@@ -1,0 +1,94 @@
+[
+  {
+    "name": "Dorothy",
+    "description": "AI-powered journey for home design and renovation",
+    "stage": "Pre-Seed",
+    "status": "Active",
+    "website": "https://hidorothy.com"
+  },
+  {
+    "name": "Bits Crypto",
+    "description": "Acquired by Tronic",
+    "stage": "Pre-Seed",
+    "status": "Acquired",
+    "website": "https://tronic.app",
+    "websiteLabel": "Visit Acquirer"
+  },
+  {
+    "name": "US Bitcoin",
+    "description": "Merged with Hut 8 Mining Corp",
+    "stage": "Series A",
+    "status": "Nasdaq: HUT",
+    "website": "https://hut8.io"
+  },
+  {
+    "name": "Otherwise Brewing",
+    "description": "Gluten-free craft brewery",
+    "stage": "Pre-Seed",
+    "status": "Active",
+    "website": "https://www.otherwisebrewing.com"
+  },
+  {
+    "name": "Return Brewing",
+    "description": "Craft brewery focused on unique flavors",
+    "stage": "Pre-Seed",
+    "status": "Active",
+    "website": "https://returnbrewing.com"
+  },
+  {
+    "name": "EvaBot",
+    "description": "AI-powered corporate gifting platform",
+    "stage": "Seed",
+    "status": "Active",
+    "website": "https://evabot.com"
+  },
+  {
+    "name": "Autority",
+    "description": "Next-generation automotive platform",
+    "stage": "Pre-Seed",
+    "status": "Active",
+    "website": "https://autority.io"
+  },
+  {
+    "name": "Gumroad",
+    "description": "Platform for creators to sell digital products",
+    "stage": "Series A",
+    "status": "Active",
+    "website": "https://gumroad.com"
+  },
+  {
+    "name": "Tribevest",
+    "description": "Group investment and management platform",
+    "stage": "Pre-Seed",
+    "status": "Active",
+    "website": "https://tribevest.com"
+  },
+  {
+    "name": "Kredi",
+    "description": "Digital banking solutions",
+    "stage": "Pre-Seed",
+    "status": "Active",
+    "website": "https://thekredibank.com"
+  },
+  {
+    "name": "GoTogether AI",
+    "description": "AI Collaboration for Startups, Talent and Investors",
+    "stage": "Pre-Seed",
+    "status": "Active",
+    "website": "https://gotogether.ai"
+  },
+  {
+    "name": "Kitch",
+    "description": "Commercial Kitchen Marketplace",
+    "stage": "Pre-Seed",
+    "status": "Acquired",
+    "website": "http://usekitch.com"
+  },
+  {
+    "name": "Tembo Health",
+    "description": "Specialized dementia care platform for seniors",
+    "stage": "Seed",
+    "status": "Active",
+    "website": "https://tembo.health"
+  }
+] 

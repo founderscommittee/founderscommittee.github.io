@@ -1,0 +1,67 @@
+[
+  {
+    "name": "Daniel Merja",
+    "title": "General Partner",
+    "expertise": ["AI/ML", "FinTech", "Enterprise", "Infra"],
+    "image": "https://ui-avatars.com/api/?name=Daniel+Merja&background=0D8ABC&color=fff",
+    "social": {
+      "linkedin": "https://www.linkedin.com/in/danielmerja/",
+      "twitter": "https://twitter.com/danielmerja"
+    }
+  },
+  {
+    "name": "Michael Bank",
+    "title": "Partner",
+    "expertise": ["Fintech", "AI/ML", "EV/Infrastructure", "Health/Bio"],
+    "image": "https://ui-avatars.com/api/?name=Michael+Bank&background=0D8ABC&color=fff",
+    "social": {
+      "linkedin": "https://www.linkedin.com/in/michaelbank1/",
+      "twitter": "https://twitter.com/realmichaelbank"
+    }
+  },
+  {
+    "name": "Paytra Gessler",
+    "title": "Partner",
+    "expertise": ["Consumer", "Music"],
+    "image": "https://ui-avatars.com/api/?name=Paytra+Gessler&background=0D8ABC&color=fff",
+    "social": {
+      "linkedin": "https://www.linkedin.com/in/paytragessler/",
+      "twitter": "https://twitter.com/PaytraGessler",
+      "spotify": "https://open.spotify.com/artist/2OG7pww56UaYyXIf6Agpeg?si=ZYyUSAgOT36rlCBAOcPTHA"
+    }
+  },
+  {
+    "name": "Nicolas Galang",
+    "title": "Partner",
+    "expertise": ["AdTech", "Consumer"],
+    "image": "https://ui-avatars.com/api/?name=Nicolas+Galang&background=0D8ABC&color=fff",
+    "social": {
+      "linkedin": "https://www.linkedin.com/in/n-galang/"
+    }
+  },
+  {
+    "name": "Jona Scott",
+    "title": "CTO",
+    "expertise": ["Infra", "AI/ML"],
+    "image": "https://ui-avatars.com/api/?name=Jona+Scott&background=0D8ABC&color=fff",
+    "social": {
+      "linkedin": "https://www.linkedin.com/in/jona-scott/"
+    }
+  },
+  {
+    "name": "Teddy Kozlowski",
+    "title": "Partner",
+    "expertise": ["Web3", "AI/ML", "FinTech", "Consumer"],
+    "image": "https://ui-avatars.com/api/?name=Teddy+Kozlowski&background=0D8ABC&color=fff",
+    "social": {
+      "linkedin": "https://www.linkedin.com/in/theodore-kozlowski/"
+    }
+  },
+  {
+    "name": "Jonathan S.",
+    "title": "Partner",
+    "expertise": ["FinTech", "Web3", "Consumer"],
+    "image": "https://ui-avatars.com/api/?name=Jonathan+S&background=0D8ABC&color=fff",
+    "social": {}
+  }
+] 
