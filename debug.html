@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Debug Page</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        h1 {
+            color: #2563eb;
+        }
+        .debug-section {
+            margin-bottom: 20px;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        button {
+            padding: 8px 16px;
+            background-color: #2563eb;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-right: 10px;
+        }
+        button:hover {
+            background-color: #1d4ed8;
+        }
+        pre {
+            background-color: #f5f5f5;
+            padding: 10px;
+            border-radius: 4px;
+            overflow-x: auto;
+        }
+    </style>
+</head>
+<body>
+    <h1>Debug Page</h1>
+    
+    <div class="debug-section">
+        <h2>Portfolio Filter Test</h2>
+        <div id="portfolio-filters">
+            <button type="button" class="filter-btn active" data-filter="all">All</button>
+            <button type="button" class="filter-btn" data-filter="Pre-Seed">Pre-Seed</button>
+            <button type="button" class="filter-btn" data-filter="Seed">Seed</button>
+            <button type="button" class="filter-btn" data-filter="Series A">Series A</button>
+            <button type="button" class="filter-btn" data-filter="Acquired">Acquired</button>
+        </div>
+        <div id="portfolio-grid" style="margin-top: 20px;">
+            <p>Portfolio items will appear here</p>
+        </div>
+    </div>
+    
+    <div class="debug-section">
+        <h2>Dark Mode Test</h2>
+        <button id="theme-toggle">Toggle Dark Mode</button>
+        <div id="theme-status">Current theme: Light</div>
+    </div>
+    
+    <div class="debug-section">
+        <h2>Console Output</h2>
+        <pre id="console-output">Console messages will appear here</pre>
+    </div>
+
+    <script>
+        // Override console.log to display in our debug page
+        const originalConsoleLog = console.log;
+        const originalConsoleError = console.error;
+        const consoleOutput = document.getElementById('console-output');
+        
+        console.log = function() {
+            const args = Array.from(arguments);
+            originalConsoleLog.apply(console, args);
+            consoleOutput.textContent += '> LOG: ' + args.join(' ') + '\n';
+        };
+        
+        console.error = function() {
+            const args = Array.from(arguments);
+            originalConsoleError.apply(console, args);
+            consoleOutput.textContent += '> ERROR: ' + args.join(' ') + '\n';
+        };
+        
+        // Simple dark mode toggle for testing
+        const themeToggle = document.getElementById('theme-toggle');
+        const themeStatus = document.getElementById('theme-status');
+        
+        themeToggle.addEventListener('click', () => {
+            if (document.documentElement.classList.contains('dark')) {
+                document.documentElement.classList.remove('dark');
+                localStorage.setItem('color-theme', 'light');
+                themeStatus.textContent = 'Current theme: Light';
+            } else {
+                document.documentElement.classList.add('dark');
+                localStorage.setItem('color-theme', 'dark');
+                themeStatus.textContent = 'Current theme: Dark';
+            }
+            console.log('Theme toggled:', document.documentElement.classList.contains('dark') ? 'Dark' : 'Light');
+        });
+        
+        // Initialize theme based on localStorage or system preference
+        if (localStorage.getItem('color-theme') === 'dark' || 
+            (!localStorage.getItem('color-theme') && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            document.documentElement.classList.add('dark');
+            themeStatus.textContent = 'Current theme: Dark';
+        } else {
+            document.documentElement.classList.remove('dark');
+            themeStatus.textContent = 'Current theme: Light';
+        }
+        
+        // Load portfolio data for testing
+        async function loadPortfolioData() {
+            try {
+                console.log('Loading portfolio data...');
+                const response = await fetch('data/portfolio.json');
+                if (!response.ok) {
+                    throw new Error(`HTTP error! Status: ${response.status}`);
+                }
+                
+                const portfolioData = await response.json();
+                console.log('Portfolio data loaded successfully:', portfolioData.length, 'items');
+                
+                // Store the data for filtering
+                window.portfolioData = portfolioData;
+                
+                // Display all items initially
+                displayPortfolioItems(portfolioData);
+                
+                // Set up filter buttons
+                const filterButtons = document.querySelectorAll('.filter-btn');
+                filterButtons.forEach(button => {
+                    button.addEventListener('click', () => {
+                        console.log('Filter clicked:', button.getAttribute('data-filter'));
+                        
+                        // Remove active class from all buttons
+                        filterButtons.forEach(btn => btn.classList.remove('active'));
+                        
+                        // Add active class to clicked button
+                        button.classList.add('active');
+                        
+                        // Filter portfolio items
+                        const filter = button.getAttribute('data-filter');
+                        filterPortfolioItems(filter);
+                    });
+                });
+                
+            } catch (error) {
+                console.error('Error loading portfolio data:', error);
+                document.getElementById('portfolio-grid').innerHTML = `
+                    <p style="color: red;">Failed to load portfolio data: ${error.message}</p>
+                `;
+            }
+        }
+        
+        function filterPortfolioItems(filter) {
+            if (!window.portfolioData) {
+                console.error('No portfolio data available for filtering');
+                return;
+            }
+            
+            console.log('Filtering portfolio items by:', filter);
+            
+            const filteredData = filter === 'all' 
+                ? window.portfolioData 
+                : window.portfolioData.filter(item => 
+                    item.stage === filter || item.status === filter
+                );
+            
+            console.log('Filtered results:', filteredData.length, 'items');
+            displayPortfolioItems(filteredData);
+        }
+        
+        function displayPortfolioItems(portfolioItems) {
+            const portfolioGrid = document.getElementById('portfolio-grid');
+            
+            // Clear any existing content
+            portfolioGrid.innerHTML = '';
+            
+            if (portfolioItems.length === 0) {
+                portfolioGrid.innerHTML = '<p>No items match the selected filter</p>';
+                return;
+            }
+            
+            // Create a simple list of portfolio items
+            const list = document.createElement('ul');
+            
+            portfolioItems.forEach(item => {
+                const listItem = document.createElement('li');
+                listItem.innerHTML = `
+                    <strong>${item.name}</strong> - ${item.description}<br>
+                    <span style="color: blue;">${item.stage}</span> | 
+                    <span style="color: green;">${item.status}</span>
+                `;
+                list.appendChild(listItem);
+            });
+            
+            portfolioGrid.appendChild(list);
+        }
+        
+        // Initialize
+        loadPortfolioData();
+    </script>
+</body>
+</html> 
