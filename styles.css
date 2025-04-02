@@ -622,6 +622,53 @@ footer {
     .team-grid {
         grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
     }
+    
+    /* Mobile menu styles */
+    #mobile-menu {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        z-index: 50;
+        transition: opacity 0.3s ease, transform 0.3s ease;
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    }
+    
+    #mobile-menu.hidden {
+        display: none;
+        opacity: 0;
+        transform: translateY(-10px);
+        pointer-events: none;
+    }
+    
+    #mobile-menu:not(.hidden) {
+        display: block;
+        opacity: 1;
+        transform: translateY(0);
+        pointer-events: auto;
+    }
+    
+    /* Improve mobile menu button visibility */
+    #mobile-menu-button {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 40px;
+        height: 40px;
+        border-radius: 4px;
+        transition: background-color 0.2s ease;
+    }
+    
+    #mobile-menu-button:hover, 
+    #mobile-menu-button:focus {
+        background-color: rgba(0, 0, 0, 0.05);
+    }
+    
+    .dark #mobile-menu-button:hover, 
+    .dark #mobile-menu-button:focus {
+        background-color: rgba(255, 255, 255, 0.1);
+    }
 }
 
 @media (max-width: 640px) {
