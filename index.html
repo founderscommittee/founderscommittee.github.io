@@ -92,7 +92,7 @@
                 
                 <!-- Mobile menu button -->
                 <div class="md:hidden">
-                    <button id="mobile-menu-button" aria-label="Toggle menu" class="text-gray-700 dark:text-gray-300 hover:text-primary dark:hover:text-primary-light transition-colors p-2 rounded-md hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-primary">
+                    <button id="mobile-menu-button" aria-label="Toggle menu" onclick="toggleMobileMenuDirect(event)" class="text-gray-700 dark:text-gray-300 hover:text-primary dark:hover:text-primary-light transition-colors p-2 rounded-md hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-primary">
                         <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                 d="M4 6h16M4 12h16M4 18h16" />
@@ -147,11 +147,11 @@
                 </nav>
                 
                 <!-- Action Buttons -->
-                <div class="pt-4 space-y-3 border-t border-gray-200 dark:border-gray-700 mt-2">
-                    <a href="#investors" class="block w-full text-center btn btn-secondary btn-ripple py-3">
+                <div class="pt-4 space-y-4 border-t border-gray-200 dark:border-gray-700 mt-2">
+                    <a href="#investors" class="block w-full text-center btn-mobile btn-secondary-mobile py-3 px-4 rounded-lg font-medium transition-all">
                         Invest With Us
                     </a>
-                    <a href="https://airtable.com/appjIoCUvdDaJd8Vi/shrsjlsmcj0PMPafs" target="_blank" class="block w-full text-center btn btn-primary btn-ripple py-3">
+                    <a href="https://airtable.com/appjIoCUvdDaJd8Vi/shrsjlsmcj0PMPafs" target="_blank" class="block w-full text-center btn-mobile btn-primary-mobile py-3 px-4 rounded-lg font-medium transition-all">
                         Pitch to Us
                     </a>
                 </div>
@@ -479,6 +479,48 @@
     <script src="team.js"></script>
     <script src="animations.js"></script>
     <script>
+        // Direct toggle function for mobile menu - accessible globally
+        function toggleMobileMenuDirect(event) {
+            if (event) {
+                event.preventDefault();
+                event.stopPropagation();
+            }
+            
+            const mobileMenu = document.getElementById('mobile-menu');
+            const mobileMenuButton = document.getElementById('mobile-menu-button');
+            
+            if (!mobileMenu || !mobileMenuButton) {
+                console.error('Mobile menu elements not found');
+                return;
+            }
+            
+            // Get computed style to check actual visibility
+            const computedStyle = window.getComputedStyle(mobileMenu);
+            const isCurrentlyHidden = computedStyle.display === 'none' || mobileMenu.classList.contains('hidden');
+            
+            console.log('Direct toggle - Menu state:', { 
+                display: computedStyle.display,
+                hasHiddenClass: mobileMenu.classList.contains('hidden'),
+                isCurrentlyHidden: isCurrentlyHidden
+            });
+            
+            if (isCurrentlyHidden) {
+                // Show menu
+                mobileMenu.style.display = 'block';
+                mobileMenu.classList.remove('hidden');
+                mobileMenuButton.setAttribute('aria-expanded', 'true');
+                mobileMenuButton.classList.add('active');
+                console.log('Menu opened directly');
+            } else {
+                // Hide menu
+                mobileMenu.style.display = 'none';
+                mobileMenu.classList.add('hidden');
+                mobileMenuButton.setAttribute('aria-expanded', 'false');
+                mobileMenuButton.classList.remove('active');
+                console.log('Menu closed directly');
+            }
+        }
+        
         // Initialize theme based on localStorage or system preference
         if (localStorage.getItem('color-theme') === 'dark' || 
             (!localStorage.getItem('color-theme') && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
@@ -504,15 +546,22 @@
             mobileMenu.classList.add('hidden');
             mobileMenu.style.display = 'none';
             
-            // Toggle menu function - Direct DOM manipulation approach
+            // Simplified toggle menu function with direct DOM manipulation
             function toggleMobileMenu(event) {
                 if (event) {
                     event.preventDefault();
                     event.stopPropagation();
                 }
                 
-                // Check current display state directly
-                const isCurrentlyHidden = mobileMenu.style.display === 'none';
+                // Get computed style to check actual visibility
+                const computedStyle = window.getComputedStyle(mobileMenu);
+                const isCurrentlyHidden = computedStyle.display === 'none' || mobileMenu.classList.contains('hidden');
+                
+                console.log('Menu state before toggle:', { 
+                    display: computedStyle.display,
+                    hasHiddenClass: mobileMenu.classList.contains('hidden'),
+                    isCurrentlyHidden: isCurrentlyHidden
+                });
                 
                 if (isCurrentlyHidden) {
                     // Show menu - Direct DOM manipulation
@@ -523,15 +572,17 @@
                     
                     // Force repaint
                     void mobileMenu.offsetHeight;
+                    
+                    console.log('Menu opened');
                 } else {
                     // Hide menu - Direct DOM manipulation
                     mobileMenu.style.display = 'none';
                     mobileMenu.classList.add('hidden');
                     mobileMenuButton.setAttribute('aria-expanded', 'false');
                     mobileMenuButton.classList.remove('active');
+                    
+                    console.log('Menu closed');
                 }
-                
-                console.log('Mobile menu toggled:', isCurrentlyHidden ? 'visible' : 'hidden');
             }
             
             // Set initial ARIA state
