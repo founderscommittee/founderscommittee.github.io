@@ -504,30 +504,34 @@
             mobileMenu.classList.add('hidden');
             mobileMenu.style.display = 'none';
             
-            // Toggle menu function
+            // Toggle menu function - Direct DOM manipulation approach
             function toggleMobileMenu(event) {
                 if (event) {
                     event.preventDefault();
                     event.stopPropagation();
                 }
                 
-                const isHidden = mobileMenu.classList.contains('hidden');
+                // Check current display state directly
+                const isCurrentlyHidden = mobileMenu.style.display === 'none';
                 
-                if (isHidden) {
-                    // Show menu
-                    mobileMenu.classList.remove('hidden');
+                if (isCurrentlyHidden) {
+                    // Show menu - Direct DOM manipulation
                     mobileMenu.style.display = 'block';
+                    mobileMenu.classList.remove('hidden');
                     mobileMenuButton.setAttribute('aria-expanded', 'true');
                     mobileMenuButton.classList.add('active');
+                    
+                    // Force repaint
+                    void mobileMenu.offsetHeight;
                 } else {
-                    // Hide menu
-                    mobileMenu.classList.add('hidden');
+                    // Hide menu - Direct DOM manipulation
                     mobileMenu.style.display = 'none';
+                    mobileMenu.classList.add('hidden');
                     mobileMenuButton.setAttribute('aria-expanded', 'false');
                     mobileMenuButton.classList.remove('active');
                 }
                 
-                console.log('Mobile menu toggled:', isHidden ? 'visible' : 'hidden');
+                console.log('Mobile menu toggled:', isCurrentlyHidden ? 'visible' : 'hidden');
             }
             
             // Set initial ARIA state
@@ -559,7 +563,6 @@
         
         // Initialize mobile menu
         setupMobileMenu();
-        }
     </script>
 </body>
 
