@@ -92,7 +92,7 @@
                 
                 <!-- Mobile menu button -->
                 <div class="md:hidden">
-                    <button id="mobile-menu-button" class="text-gray-700 dark:text-gray-300 hover:text-primary dark:hover:text-primary-light transition-colors p-2 rounded-md hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-primary">
+                    <button id="mobile-menu-button" aria-label="Toggle menu" class="text-gray-700 dark:text-gray-300 hover:text-primary dark:hover:text-primary-light transition-colors p-2 rounded-md hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-primary">
                         <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                 d="M4 6h16M4 12h16M4 18h16" />
@@ -124,10 +124,10 @@
         </div>
 
         <!-- Mobile Menu -->
-        <div id="mobile-menu" class="hidden md:hidden glass absolute top-16 left-0 right-0 z-50 shadow-lg">
-            <div class="px-4 pt-2 pb-3 space-y-3">
+        <div id="mobile-menu" class="hidden md:hidden" style="display: none;">
+            <div class="px-4 pt-4 pb-6 space-y-4">
                 <!-- Dark mode toggle for mobile -->
-                <div class="flex items-center py-2">
+                <div class="flex items-center py-2 border-b border-gray-200 dark:border-gray-700 pb-4 mb-2">
                     <button id="theme-toggle-mobile" class="text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg text-sm p-2.5">
                         <svg id="theme-toggle-dark-icon-mobile" class="hidden w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
                             <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path>
@@ -138,14 +138,20 @@
                     </button>
                     <span class="ml-3 text-gray-700 dark:text-gray-300">Toggle theme</span>
                 </div>
-                <a href="#portfolio" class="block text-gray-700 dark:text-gray-300 hover:text-primary dark:hover:text-primary-light transition-colors py-2">Portfolio</a>
-                <a href="#team" class="block text-gray-700 dark:text-gray-300 hover:text-primary dark:hover:text-primary-light transition-colors py-2">Team</a>
-                <a href="#startup-news" class="block text-gray-700 dark:text-gray-300 hover:text-primary dark:hover:text-primary-light transition-colors py-2">News</a>
-                <div class="pt-2 space-y-2">
-                    <a href="#investors" class="block w-full text-center btn btn-secondary btn-ripple">
+                
+                <!-- Navigation Links -->
+                <nav class="flex flex-col space-y-3">
+                    <a href="#portfolio" class="block text-gray-700 dark:text-gray-300 hover:text-primary dark:hover:text-primary-light transition-colors py-2 font-medium">Portfolio</a>
+                    <a href="#team" class="block text-gray-700 dark:text-gray-300 hover:text-primary dark:hover:text-primary-light transition-colors py-2 font-medium">Team</a>
+                    <a href="#startup-news" class="block text-gray-700 dark:text-gray-300 hover:text-primary dark:hover:text-primary-light transition-colors py-2 font-medium">News</a>
+                </nav>
+                
+                <!-- Action Buttons -->
+                <div class="pt-4 space-y-3 border-t border-gray-200 dark:border-gray-700 mt-2">
+                    <a href="#investors" class="block w-full text-center btn btn-secondary btn-ripple py-3">
                         Invest With Us
                     </a>
-                    <a href="https://airtable.com/appjIoCUvdDaJd8Vi/shrsjlsmcj0PMPafs" target="_blank" class="block w-full text-center btn btn-primary btn-ripple">
+                    <a href="https://airtable.com/appjIoCUvdDaJd8Vi/shrsjlsmcj0PMPafs" target="_blank" class="block w-full text-center btn btn-primary btn-ripple py-3">
                         Pitch to Us
                     </a>
                 </div>
@@ -481,49 +487,78 @@
             document.documentElement.classList.remove('dark');
         }
         
-        const mobileMenuButton = document.getElementById('mobile-menu-button');
-        const mobileMenu = document.getElementById('mobile-menu');
-
-        // Ensure elements exist before adding event listeners
-        if (mobileMenuButton && mobileMenu) {
-            // Mobile menu toggle functionality
-            mobileMenuButton.addEventListener('click', (e) => {
-                e.preventDefault(); // Prevent default behavior
-                e.stopPropagation(); // Stop event propagation
-                
-                // Direct approach to toggle visibility
-                if (mobileMenu.classList.contains('hidden')) {
-                    mobileMenu.classList.remove('hidden');
-                    mobileMenu.style.display = 'block';
-                } else {
-                    mobileMenu.classList.add('hidden');
-                    mobileMenu.style.display = 'none';
+        // Mobile menu functionality
+        function setupMobileMenu() {
+            const mobileMenuButton = document.getElementById('mobile-menu-button');
+            const mobileMenu = document.getElementById('mobile-menu');
+            
+            if (!mobileMenuButton || !mobileMenu) {
+                console.error('Mobile menu elements not found:', { 
+                    mobileMenuButton: !!mobileMenuButton, 
+                    mobileMenu: !!mobileMenu 
+                });
+                return;
+            }
+            
+            // Force initial state
+            mobileMenu.classList.add('hidden');
+            mobileMenu.style.display = 'none';
+            
+            // Toggle menu function
+            function toggleMobileMenu(event) {
+                if (event) {
+                    event.preventDefault();
+                    event.stopPropagation();
                 }
                 
-                // Log for debugging
-                console.log('Mobile menu toggled', mobileMenu.classList.contains('hidden') ? 'hidden' : 'visible');
-            });
-
-            // Close mobile menu when clicking a link
+                const isHidden = mobileMenu.classList.contains('hidden');
+                
+                if (isHidden) {
+                    // Show menu
+                    mobileMenu.classList.remove('hidden');
+                    mobileMenu.style.display = 'block';
+                    mobileMenuButton.setAttribute('aria-expanded', 'true');
+                    mobileMenuButton.classList.add('active');
+                } else {
+                    // Hide menu
+                    mobileMenu.classList.add('hidden');
+                    mobileMenu.style.display = 'none';
+                    mobileMenuButton.setAttribute('aria-expanded', 'false');
+                    mobileMenuButton.classList.remove('active');
+                }
+                
+                console.log('Mobile menu toggled:', isHidden ? 'visible' : 'hidden');
+            }
+            
+            // Set initial ARIA state
+            mobileMenuButton.setAttribute('aria-expanded', 'false');
+            mobileMenuButton.setAttribute('aria-controls', 'mobile-menu');
+            
+            // Add click event to button
+            mobileMenuButton.addEventListener('click', toggleMobileMenu);
+            
+            // Close menu when clicking links
             document.querySelectorAll('#mobile-menu a').forEach(link => {
                 link.addEventListener('click', () => {
                     mobileMenu.classList.add('hidden');
                     mobileMenu.style.display = 'none';
+                    mobileMenuButton.setAttribute('aria-expanded', 'false');
+                    mobileMenuButton.classList.remove('active');
                 });
             });
             
-            // Close mobile menu when clicking outside
+            // Close menu when clicking outside
             document.addEventListener('click', (e) => {
-                if (!mobileMenu.contains(e.target) && !mobileMenuButton.contains(e.target) && !mobileMenu.classList.contains('hidden')) {
-                    mobileMenu.classList.add('hidden');
-                    mobileMenu.style.display = 'none';
+                if (!mobileMenu.contains(e.target) && 
+                    !mobileMenuButton.contains(e.target) && 
+                    !mobileMenu.classList.contains('hidden')) {
+                    toggleMobileMenu();
                 }
             });
-        } else {
-            console.error('Mobile menu elements not found:', { 
-                mobileMenuButton: !!mobileMenuButton, 
-                mobileMenu: !!mobileMenu 
-            });
+        }
+        
+        // Initialize mobile menu
+        setupMobileMenu();
         }
     </script>
 </body>

@@ -625,28 +625,38 @@ footer {
     
     /* Mobile menu styles */
     #mobile-menu {
-        position: absolute;
-        top: 100%;
+        position: fixed;
+        top: 4rem; /* Match header height */
         left: 0;
         right: 0;
-        z-index: 50;
-        transition: opacity 0.3s ease, transform 0.3s ease;
-        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        z-index: 9999;
+        background-color: white;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
         border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+        max-height: calc(100vh - 4rem);
+        overflow-y: auto;
+    }
+    
+    .dark #mobile-menu {
+        background-color: #1f2937;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
     }
     
     #mobile-menu.hidden {
-        display: none;
+        display: none !important;
         opacity: 0;
         transform: translateY(-10px);
         pointer-events: none;
+        visibility: hidden;
     }
     
     #mobile-menu:not(.hidden) {
-        display: block;
+        display: block !important;
         opacity: 1;
         transform: translateY(0);
         pointer-events: auto;
+        visibility: visible;
     }
     
     /* Improve mobile menu button visibility */
@@ -657,17 +667,32 @@ footer {
         width: 40px;
         height: 40px;
         border-radius: 4px;
-        transition: background-color 0.2s ease;
+        transition: all 0.2s ease;
+        position: relative;
+        z-index: 9999;
     }
     
     #mobile-menu-button:hover, 
     #mobile-menu-button:focus {
         background-color: rgba(0, 0, 0, 0.05);
+        color: var(--primary);
     }
     
     .dark #mobile-menu-button:hover, 
     .dark #mobile-menu-button:focus {
         background-color: rgba(255, 255, 255, 0.1);
+        color: var(--primary-light);
+    }
+    
+    /* Active state for mobile menu button */
+    #mobile-menu-button.active {
+        background-color: var(--primary);
+        color: white;
+    }
+    
+    .dark #mobile-menu-button.active {
+        background-color: var(--primary-dark);
+        color: white;
     }
 }
 
