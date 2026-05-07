@@ -1,12 +1,30 @@
-
 User-agent: *
 Allow: /
-Allow: /index.html
-Allow: /assets/images/
-Allow: /favicon.ico
+Disallow: /debug.html
+Disallow: /data/
+Disallow: /docs/
+
+# AI crawlers — allow all
+User-agent: GPTBot
+Allow: /
+
+User-agent: OAI-SearchBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: Claude-SearchBot
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
 
 # Sitemap
 Sitemap: https://fcv.vc/sitemap.xml
-
-# Crawl-delay
-Crawl-delay: 10
