@@ -239,57 +239,33 @@
     </div>
 
     <!-- News Section -->
-    <section id="startup-news" class="bg-gradient-to-b from-gray-100/50 dark:from-gray-900/50 to-white/50 dark:to-gray-800/50 section-animate">
+    <section id="startup-news" class="section-animate">
         <div class="container">
-            <div class="text-center mb-12">
-                <span class="text-primary font-semibold text-lg mb-4 block reveal-up">Stay Informed</span>
-                <h2 class="gradient-text mb-6 reveal-up">Latest from Hacker News</h2>
-                <div class="w-24 h-1 bg-primary mx-auto mb-8 reveal-up"></div>
-                <p class="text-xl text-gray-700 dark:text-gray-300 max-w-3xl mx-auto reveal-up" id="news-date">
-                    Stay updated with the latest tech and startup news
-                </p>
-            </div>
-            
-            <div class="news-carousel card reveal-up">
-                <div class="card-accent"></div>
-                <div class="p-6 md:p-8">
-                    <div class="carousel-container overflow-hidden">
-                        <div id="news-container" class="carousel-track flex transition-transform duration-300 ease-in-out">
-                            <div id="news-skeleton" class="w-full flex-shrink-0 space-y-4">
-                                <div class="h-4 bg-gray-200 dark:bg-gray-700 rounded w-3/4"></div>
-                                <div class="h-4 bg-gray-200 dark:bg-gray-700 rounded w-5/6"></div>
-                                <div class="h-4 bg-gray-200 dark:bg-gray-700 rounded w-2/3"></div>
-                                <div class="h-4 bg-gray-200 dark:bg-gray-700 rounded w-4/5"></div>
-                                <div class="h-4 bg-gray-200 dark:bg-gray-700 rounded w-3/4"></div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Carousel Controls -->
-                    <div class="carousel-controls">
-                        <button id="prev-slide" class="btn btn-primary p-2 rounded-full">
-                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
-                            </svg>
-                        </button>
-                        <div id="carousel-indicators" class="carousel-indicators"></div>
-                        <button id="next-slide" class="btn btn-primary p-2 rounded-full">
-                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
-                            </svg>
-                        </button>
+            <span class="section-eyebrow reveal-up">Stay Informed</span>
+            <div class="section-heading-row reveal-up"><div class="accent-rule"></div><h2>Latest from Hacker News</h2></div>
+            <p class="section-sub reveal-up" id="news-date">Top stories from the tech and startup world, updated daily.</p>
+            <div class="news-wrapper reveal-up">
+                <div class="news-header">
+                    <span class="news-header-title">Top Stories</span>
+                    <div class="news-nav">
+                        <button id="prev-slide" class="news-nav-btn">←</button>
+                        <button id="next-slide" class="news-nav-btn">→</button>
                     </div>
                 </div>
+                <div class="carousel-container">
+                    <div id="news-container" class="carousel-track">
+                        <div id="news-skeleton" class="news-slide" style="padding:14px 24px;">
+                            <div style="height:13px;background:var(--border);border-radius:3px;width:75%;margin-bottom:10px;"></div>
+                            <div style="height:13px;background:var(--border);border-radius:3px;width:85%;margin-bottom:10px;"></div>
+                            <div style="height:13px;background:var(--border);border-radius:3px;width:65%;margin-bottom:10px;"></div>
+                            <div style="height:13px;background:var(--border);border-radius:3px;width:80%;"></div>
+                        </div>
+                    </div>
+                </div>
+                <div id="carousel-indicators" style="display:none;"></div>
             </div>
-            
-            <!-- News CTA -->
-            <div class="text-center mt-12 reveal-up">
-                <a href="https://news.ycombinator.com/" target="_blank" class="btn btn-outline">
-                    Visit Hacker News
-                    <svg class="ml-2 -mr-1 h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
-                    </svg>
-                </a>
+            <div class="text-center mt-10 reveal-up">
+                <a href="https://news.ycombinator.com/" target="_blank" class="btn btn-outline">Visit Hacker News →</a>
             </div>
         </div>
     </section>

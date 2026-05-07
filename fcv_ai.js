@@ -1,3 +1,18 @@
+function escapeHtml(str) {
+    return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;');
+}
+
+function getTimeAgo(unixTime) {
+    const seconds = Math.floor(Date.now() / 1000 - unixTime);
+    if (seconds < 3600) return Math.floor(seconds / 60) + 'm ago';
+    if (seconds < 86400) return Math.floor(seconds / 3600) + 'h ago';
+    return Math.floor(seconds / 86400) + 'd ago';
+}
+
 // Remove any existing dark mode implementation to avoid conflicts with animations.js
 // Other functionality in this file will remain unchanged
 
@@ -42,19 +57,18 @@ async function updateNews() {
         for (let i = 0; i < stories.length; i += 5) {  // Changed from 3 to 5
             const slideStories = stories.slice(i, i + 5);
             const storyList = slideStories.map(story => {
-                const link = story.url ? `<a href="${story.url}" target="_blank" rel="noopener noreferrer" class="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300">Read more</a>` : '';
-                const userLink = `<a href="https://news.ycombinator.com/user?id=${story.by}" target="_blank" rel="noopener noreferrer" class="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300">${story.by}</a>`;
-                return `<div class="mb-4 last:mb-0 pb-4 border-b border-gray-200 dark:border-gray-700 last:border-b-0">
-                    <h3 class="font-semibold text-lg mb-2 text-gray-900 dark:text-white">${story.title}</h3>
-                    <p class="text-sm text-gray-600 dark:text-gray-400">Posted by ${userLink}</p>
-                    <div class="mt-2 flex justify-between items-center">
-                        <span class="text-sm text-gray-500 dark:text-gray-400">Score: ${story.score}</span>
-                        ${link}
-                    </div>
-                </div>`;
+                const timeAgo = story.time ? getTimeAgo(story.time) : '';
+                const safeTitle = escapeHtml(story.title || '');
+                const safeBy = escapeHtml(story.by || '');
+                const titleEl = story.url
+                    ? '<a href="' + escapeHtml(story.url) + '" target="_blank" rel="noopener noreferrer" class="news-item-title">' + safeTitle + '</a>'
+                    : '<span class="news-item-title">' + safeTitle + '</span>';
+                return '<div class="news-item"><div class="news-item-left">' + titleEl +
+                    '<span class="news-item-meta">' + (story.score || 0) + ' pts · ' + (story.descendants || 0) + ' comments · by ' + safeBy + '</span>' +
+                    '</div><span class="news-item-time">' + timeAgo + '</span></div>';
             }).join('');
 
-            slidesHTML.push(`<div class="carousel-slide w-full flex-shrink-0 px-4">${storyList}</div>`);
+            slidesHTML.push('<div class="news-slide">' + storyList + '</div>');
         }
 
         newsContainer.innerHTML = slidesHTML.join('');
@@ -68,7 +82,7 @@ async function updateNews() {
             month: 'long',
             day: 'numeric'
         });
-        newsDate.textContent = `HN Top Stories - ${currentDate}`;
+        newsDate.textContent = 'Top stories from the tech and startup world · ' + currentDate;
     }
 }
 
@@ -109,14 +123,11 @@ function setupCarouselControls() {
 let touchStartX = 0;
 let touchEndX = 0;
 
-document.querySelector('.carousel-container').addEventListener('touchstart', e => {
-    touchStartX = e.changedTouches[0].screenX;
-}, false);
-
-document.querySelector('.carousel-container').addEventListener('touchend', e => {
-    touchEndX = e.changedTouches[0].screenX;
-    handleSwipe();
-}, false);
+const carouselEl = document.querySelector('.carousel-container');
+if (carouselEl) {
+    carouselEl.addEventListener('touchstart', e => { touchStartX = e.changedTouches[0].screenX; }, false);
+    carouselEl.addEventListener('touchend', e => { touchEndX = e.changedTouches[0].screenX; handleSwipe(); }, false);
+}
 
 function handleSwipe() {
     const swipeThreshold = 50;
