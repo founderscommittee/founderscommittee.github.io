@@ -79,87 +79,52 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 
-<body class="pattern-bg dark-transition">
-    <div class="noise-overlay"></div>
-
-    <!-- Modern Navbar -->
-    <nav class="fixed w-full z-50 top-0 glass dark-transition">
-        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between h-16 items-center">
-                <div class="flex-shrink-0">
-                    <a href="#" class="text-xl font-bold text-primary gradient-text magnetic-btn">FCV</a>
-                </div>
-                
-                <!-- Mobile menu button -->
-                <div class="md:hidden">
-                    <button id="mobile-menu-button" aria-label="Toggle menu" onclick="toggleMobileMenuDirect(event)" class="text-gray-700 dark:text-gray-300 hover:text-primary dark:hover:text-primary-light transition-colors p-2 rounded-md hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-primary">
-                        <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M4 6h16M4 12h16M4 18h16" />
-                        </svg>
-                    </button>
-                </div>
-                
-                <!-- Desktop Navigation -->
-                <div class="hidden md:flex items-center space-x-6">
-                    <button id="theme-toggle" class="text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg text-sm p-2.5 magnetic-btn">
-                        <svg id="theme-toggle-dark-icon" class="hidden w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-                            <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path>
-                        </svg>
-                        <svg id="theme-toggle-light-icon" class="hidden w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-                            <path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z"></path>
-                        </svg>
-                    </button>
-                    <a href="#portfolio" class="text-gray-700 dark:text-gray-300 hover:text-primary dark:hover:text-primary-light transition-colors magnetic-btn">Portfolio</a>
-                    <a href="#team" class="text-gray-700 dark:text-gray-300 hover:text-primary dark:hover:text-primary-light transition-colors magnetic-btn">Team</a>
-                    <a href="#startup-news" class="text-gray-700 dark:text-gray-300 hover:text-primary dark:hover:text-primary-light transition-colors magnetic-btn">News</a>
-                    <a href="#investors" class="btn btn-secondary magnetic-btn">
-                        Invest With Us
-                    </a>
-                    <a href="https://airtable.com/appjIoCUvdDaJd8Vi/shrsjlsmcj0PMPafs" target="_blank" class="btn btn-primary magnetic-btn">
-                        Pitch to Us
-                    </a>
-                </div>
+<body class="dark-transition">
+    <nav class="dark-transition">
+    <div class="container">
+        <div class="nav-inner">
+            <a href="#" class="nav-logo">FCV</a>
+            <div class="md:hidden">
+                <button id="mobile-menu-button" aria-label="Toggle menu" onclick="toggleMobileMenuDirect(event)">
+                    <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                    </svg>
+                </button>
+            </div>
+            <div class="hidden md:flex items-center gap-7">
+                <button id="theme-toggle" class="nav-link p-1" style="background:none;border:none;cursor:pointer;">
+                    <svg id="theme-toggle-dark-icon" class="hidden w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path></svg>
+                    <svg id="theme-toggle-light-icon" class="hidden w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z"></path></svg>
+                </button>
+                <a href="#portfolio" class="nav-link">Portfolio</a>
+                <a href="#team" class="nav-link">Team</a>
+                <a href="#startup-news" class="nav-link">News</a>
+                <a href="#investors" class="btn-nav-outline">Invest With Us</a>
+                <a href="https://airtable.com/appjIoCUvdDaJd8Vi/shrsjlsmcj0PMPafs" target="_blank" class="btn-nav-primary">Pitch to Us</a>
             </div>
         </div>
-
-        <!-- Mobile Menu -->
-        <div id="mobile-menu" class="hidden md:hidden" style="display: none;">
-            <div class="px-5 pt-4 pb-6">
-                <!-- Dark mode toggle for mobile -->
-                <div class="flex items-center py-2 border-b border-gray-200 dark:border-gray-700 pb-4 mb-4">
-                    <button id="theme-toggle-mobile" class="text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg text-sm p-2.5">
-                        <svg id="theme-toggle-dark-icon-mobile" class="hidden w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-                            <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path>
-                        </svg>
-                        <svg id="theme-toggle-light-icon-mobile" class="hidden w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-                            <path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z"></path>
-                        </svg>
-                    </button>
-                    <span class="ml-3 text-gray-700 dark:text-gray-300">Toggle theme</span>
-                </div>
-                
-                <!-- Navigation Links -->
-                <nav class="flex flex-col mb-6">
-                    <a href="#portfolio" class="block text-gray-700 dark:text-gray-300 hover:text-primary dark:hover:text-primary-light transition-colors py-3 font-medium">Portfolio</a>
-                    <a href="#team" class="block text-gray-700 dark:text-gray-300 hover:text-primary dark:hover:text-primary-light transition-colors py-3 font-medium">Team</a>
-                    <a href="#startup-news" class="block text-gray-700 dark:text-gray-300 hover:text-primary dark:hover:text-primary-light transition-colors py-3 font-medium">News</a>
-                </nav>
-                
-                <!-- Action Buttons -->
-                <div class="pt-4 border-t border-gray-200 dark:border-gray-700">
-                    <div class="grid gap-4 mt-4">
-                        <a href="#investors" class="btn btn-secondary text-center">
-                            Invest With Us
-                        </a>
-                        <a href="https://airtable.com/appjIoCUvdDaJd8Vi/shrsjlsmcj0PMPafs" target="_blank" class="btn btn-primary text-center">
-                            Pitch to Us
-                        </a>
-                    </div>
-                </div>
+    </div>
+    <div id="mobile-menu" class="hidden md:hidden">
+        <div class="px-5 pt-4 pb-6">
+            <div class="flex items-center py-2 pb-4 mb-4" style="border-bottom:1px solid var(--border);">
+                <button id="theme-toggle-mobile" style="background:none;border:none;cursor:pointer;padding:6px;" class="nav-link">
+                    <svg id="theme-toggle-dark-icon-mobile" class="hidden w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path></svg>
+                    <svg id="theme-toggle-light-icon-mobile" class="hidden w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z"></path></svg>
+                </button>
+                <span class="ml-3" style="font-size:13px;color:var(--ink-secondary);">Toggle theme</span>
+            </div>
+            <nav class="flex flex-col mb-6" style="position:static;height:auto;background:none;border:none;backdrop-filter:none;">
+                <a href="#portfolio" class="nav-link py-3 font-medium">Portfolio</a>
+                <a href="#team" class="nav-link py-3 font-medium">Team</a>
+                <a href="#startup-news" class="nav-link py-3 font-medium">News</a>
+            </nav>
+            <div class="pt-4 flex flex-col gap-3" style="border-top:1px solid var(--border);">
+                <a href="#investors" class="btn-nav-outline text-center justify-center" style="padding:10px 16px;">Invest With Us</a>
+                <a href="https://airtable.com/appjIoCUvdDaJd8Vi/shrsjlsmcj0PMPafs" target="_blank" class="btn-nav-primary text-center justify-center" style="padding:10px 16px;">Pitch to Us</a>
             </div>
         </div>
-    </nav>
+    </div>
+</nav>
 
     <!-- Hero Section -->
     <section class="hero min-h-screen flex items-center justify-center pt-24 pb-32">
