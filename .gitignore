@@ -1,0 +1,7 @@
+/.env
+/node_modules
+/.superpowers
+/.remember
+/.cursor
+/.claude
+/docs
