@@ -68,41 +68,17 @@ function initSectionAnimations() {
 // Parallax effects
 function initParallaxEffects() {
     const parallaxElements = document.querySelectorAll('.parallax');
-    const heroSection = document.querySelector('.hero');
-    
-    if (parallaxElements.length > 0 || heroSection) {
-        window.addEventListener('scroll', () => {
-            const scrollY = window.scrollY;
-            
-            // Apply parallax to elements with the parallax class
-            parallaxElements.forEach(element => {
-                const speed = element.dataset.speed || 0.1;
-                const direction = element.dataset.direction || 'up';
-                const limit = element.dataset.limit || 100;
-                
-                let yPos = 0;
-                if (direction === 'up') {
-                    yPos = Math.min(scrollY * speed, limit);
-                } else {
-                    yPos = Math.max(-scrollY * speed, -limit);
-                }
-                
-                element.style.transform = `translate3d(0, ${yPos}px, 0)`;
-            });
-            
-            // Apply special effect to hero section if it exists
-            if (heroSection && scrollY < window.innerHeight) {
-                const opacity = 1 - (scrollY / (window.innerHeight * 0.8));
-                heroSection.style.opacity = Math.max(opacity, 0.2);
-                
-                const scale = 1 + (scrollY * 0.0005);
-                const heroContent = heroSection.querySelector('.hero-content');
-                if (heroContent) {
-                    heroContent.style.transform = `scale(${scale})`;
-                }
-            }
+    if (parallaxElements.length === 0) return;
+    window.addEventListener('scroll', () => {
+        const scrollY = window.scrollY;
+        parallaxElements.forEach(element => {
+            const speed = element.dataset.speed || 0.1;
+            const direction = element.dataset.direction || 'up';
+            const limit = element.dataset.limit || 100;
+            const yPos = direction === 'up' ? Math.min(scrollY * speed, limit) : Math.max(-scrollY * speed, -limit);
+            element.style.transform = 'translate3d(0,' + yPos + 'px,0)';
         });
-    }
+    });
 }
 
 // Scroll-triggered animations
@@ -137,40 +113,15 @@ function initScrollAnimations() {
 
 // Interactive elements
 function initInteractiveElements() {
-    // Add hover effects to buttons and links
-    const interactiveElements = document.querySelectorAll('.btn, .card, .hover-lift');
-    
-    interactiveElements.forEach(element => {
-        element.addEventListener('mouseenter', () => {
-            element.style.transform = 'translateY(-5px)';
-            element.style.transition = 'transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1)';
-        });
-        
-        element.addEventListener('mouseleave', () => {
-            element.style.transform = 'translateY(0)';
-            element.style.transition = 'transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1)';
-        });
-    });
-    
-    // Add ripple effect to buttons
-    const rippleButtons = document.querySelectorAll('.btn-ripple');
-    
-    rippleButtons.forEach(button => {
+    document.querySelectorAll('.btn-ripple').forEach(button => {
         button.addEventListener('click', function(e) {
             const rect = button.getBoundingClientRect();
-            const x = e.clientX - rect.left;
-            const y = e.clientY - rect.top;
-            
             const ripple = document.createElement('span');
             ripple.classList.add('ripple');
-            ripple.style.left = `${x}px`;
-            ripple.style.top = `${y}px`;
-            
+            ripple.style.left = (e.clientX - rect.left) + 'px';
+            ripple.style.top = (e.clientY - rect.top) + 'px';
             button.appendChild(ripple);
-            
-            setTimeout(() => {
-                ripple.remove();
-            }, 600);
+            setTimeout(() => ripple.remove(), 600);
         });
     });
 }
@@ -266,68 +217,10 @@ function initSmoothScrolling() {
 }
 
 // Magnetic buttons effect
-function initMagneticButtons() {
-    const magneticButtons = document.querySelectorAll('.magnetic-btn');
-    
-    magneticButtons.forEach(btn => {
-        btn.addEventListener('mousemove', function(e) {
-            const rect = this.getBoundingClientRect();
-            const x = e.clientX - rect.left - rect.width / 2;
-            const y = e.clientY - rect.top - rect.height / 2;
-            
-            // Calculate distance from center (0-1)
-            const distance = Math.sqrt(x * x + y * y);
-            const maxDistance = Math.sqrt(Math.pow(rect.width / 2, 2) + Math.pow(rect.height / 2, 2));
-            const strength = Math.min(distance / maxDistance, 1);
-            
-            // Apply transform based on mouse position
-            this.style.transform = `translate(${x * 0.2}px, ${y * 0.2}px)`;
-        });
-        
-        btn.addEventListener('mouseleave', function() {
-            this.style.transform = 'translate(0, 0)';
-        });
-    });
-}
+function initMagneticButtons() {}
 
 // 3D card effects
-function init3DCardEffects() {
-    const cards = document.querySelectorAll('.card-3d');
-    
-    cards.forEach(card => {
-        card.addEventListener('mousemove', function(e) {
-            const rect = this.getBoundingClientRect();
-            const x = e.clientX - rect.left;
-            const y = e.clientY - rect.top;
-            
-            // Calculate rotation based on mouse position
-            const centerX = rect.width / 2;
-            const centerY = rect.height / 2;
-            const rotateY = ((x - centerX) / centerX) * 5; // Max 5 degrees
-            const rotateX = ((centerY - y) / centerY) * 5; // Max 5 degrees
-            
-            // Apply transform
-            this.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
-            
-            // Add highlight effect
-            const content = this.querySelector('.card-3d-content');
-            if (content) {
-                const percentX = (x / rect.width) * 100;
-                const percentY = (y / rect.height) * 100;
-                content.style.background = `radial-gradient(circle at ${percentX}% ${percentY}%, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0) 50%)`;
-            }
-        });
-        
-        card.addEventListener('mouseleave', function() {
-            this.style.transform = 'perspective(1000px) rotateX(0) rotateY(0)';
-            
-            const content = this.querySelector('.card-3d-content');
-            if (content) {
-                content.style.background = 'none';
-            }
-        });
-    });
-}
+function init3DCardEffects() {}
 
 // Staggered animations
 function initStaggeredAnimations() {
