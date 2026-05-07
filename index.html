@@ -160,38 +160,19 @@
     </section>
 
     <!-- Portfolio Section -->
-    <section id="portfolio" class="section-animate py-24">
+    <section id="portfolio" class="section-animate">
         <div class="container">
-            <div class="text-center mb-12">
-                <span class="text-primary font-semibold text-lg mb-4 block reveal-up">Our Investments</span>
-                <h2 class="gradient-text mb-6 reveal-up">Select Portfolio</h2>
-                <div class="w-24 h-1 bg-primary mx-auto mb-8 reveal-up"></div>
-                <p class="text-xl text-gray-700 dark:text-gray-300 max-w-3xl mx-auto reveal-up">
-                    We invest in technical founders building scalable solutions across various stages
-                </p>
-            </div>
-            
+            <span class="section-eyebrow reveal-up">Our Investments</span>
+            <div class="section-heading-row reveal-up"><div class="accent-rule"></div><h2>Select Portfolio</h2></div>
+            <p class="section-sub reveal-up">We invest in technical founders building scalable solutions across pre-seed through Series A.</p>
             <div class="portfolio-filters reveal-up">
-                <button type="button" class="filter-btn active" data-filter="all">
-                    All
-                </button>
-                <button type="button" class="filter-btn" data-filter="Pre-Seed">
-                    Pre-Seed
-                </button>
-                <button type="button" class="filter-btn" data-filter="Seed">
-                    Seed
-                </button>
-                <button type="button" class="filter-btn" data-filter="Series A">
-                    Series A
-                </button>
-                <button type="button" class="filter-btn" data-filter="Acquired">
-                    Acquired
-                </button>
+                <button type="button" class="filter-btn active" data-filter="all">All</button>
+                <button type="button" class="filter-btn" data-filter="Pre-Seed">Pre-Seed</button>
+                <button type="button" class="filter-btn" data-filter="Seed">Seed</button>
+                <button type="button" class="filter-btn" data-filter="Series A">Series A</button>
+                <button type="button" class="filter-btn" data-filter="Acquired">Acquired</button>
             </div>
-            
-            <div id="portfolio-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 stagger-container">
-                <!-- Portfolio items will be dynamically loaded here -->
-            </div>
+            <div id="portfolio-grid" class="logo-grid stagger-container"></div>
         </div>
     </section>
 
