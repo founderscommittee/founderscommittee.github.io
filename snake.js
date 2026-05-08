@@ -302,7 +302,6 @@ class SnakeGame {
 
         ctx.fillStyle = '#e85d04';
         ctx.font = `700 12px 'Inter', system-ui, sans-serif`;
-        ctx.letterSpacing = '0.08em';
         ctx.fillText('SCORE: ' + this.score, canvas.width / 2, canvas.height / 2 + 12);
     }
 

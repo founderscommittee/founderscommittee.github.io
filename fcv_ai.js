@@ -8,6 +8,7 @@ function escapeHtml(str) {
 
 function getTimeAgo(unixTime) {
     const seconds = Math.floor(Date.now() / 1000 - unixTime);
+    if (seconds < 60) return 'just now';
     if (seconds < 3600) return Math.floor(seconds / 60) + 'm ago';
     if (seconds < 86400) return Math.floor(seconds / 3600) + 'h ago';
     return Math.floor(seconds / 86400) + 'd ago';
@@ -49,8 +50,8 @@ async function updateNews() {
     newsDate.textContent = '';
 
     const stories = await fetchHackerNews();
+    newsSkeleton.style.display = 'none';
     if (stories.length > 0) {
-        newsSkeleton.style.display = 'none';
 
         // Create slides with 5 stories each instead of 3
         const slidesHTML = [];
@@ -151,27 +152,7 @@ updateNews();
 // Auto-update news every 10 minutes
 setInterval(updateNews, 600000);
 
-// Add section animations
-const observerOptions = {
-    root: null,
-    rootMargin: '0px',
-    threshold: 0.1
-};
-
-const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-        if (entry.isIntersecting) {
-            entry.target.classList.remove('opacity-0', 'translate-y-4');
-            observer.unobserve(entry.target);
-        }
-    });
-}, observerOptions);
-
-document.querySelectorAll('.section-animate').forEach((section) => {
-    observer.observe(section);
-});
-
-// Add Konami code detector
+// Konami code detector
 const konamiCode = ['ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'ArrowLeft', 'ArrowRight', 'b', 'a'];
 let konamiIndex = 0;
 

@@ -41,16 +41,6 @@ function initSectionAnimations() {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
                 entry.target.classList.add('visible');
-                
-                // Add staggered animations to children if they have the stagger-item class
-                const staggerItems = entry.target.querySelectorAll('.stagger-item');
-                staggerItems.forEach((item, index) => {
-                    setTimeout(() => {
-                        item.classList.add('visible');
-                    }, 100 + (index * 100));
-                });
-                
-                // Once the animation is complete, we can stop observing this section
                 sectionObserver.unobserve(entry.target);
             }
         });

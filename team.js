@@ -13,11 +13,9 @@ async function loadTeamData() {
         displayTeamMembers(teamData);
     } catch (error) {
         console.error('Error loading team data:', error);
-        document.getElementById('team-grid').innerHTML = `
-            <div class="col-span-full text-center">
-                <p class="text-red-500">Failed to load team data. Please try again later.</p>
-            </div>
-        `;
+        const grid = document.getElementById('team-grid');
+        grid.style.cssText = 'grid-column:1/-1;text-align:center;padding:48px 0;color:var(--ink-secondary);font-size:14px;';
+        grid.textContent = 'Failed to load team data. Please try again later.';
     }
 }
 

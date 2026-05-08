@@ -32,11 +32,9 @@ async function loadPortfolioData() {
         window.portfolioData = portfolioData;
     } catch (error) {
         console.error('Error loading portfolio data:', error);
-        document.getElementById('portfolio-grid').innerHTML = `
-            <div class="col-span-full text-center">
-                <p class="text-red-500">Failed to load portfolio data. Please try again later.</p>
-            </div>
-        `;
+        const grid = document.getElementById('portfolio-grid');
+        grid.style.cssText = 'grid-column:1/-1;text-align:center;padding:48px 0;color:var(--ink-secondary);font-size:14px;';
+        grid.textContent = 'Failed to load portfolio data. Please try again later.';
     }
 }
 
@@ -52,7 +50,7 @@ function filterPortfolioItems(filter) {
     displayPortfolioItems(filteredData);
     
     // Add animation to newly displayed items
-    const portfolioItems = document.querySelectorAll('#portfolio-grid > div');
+    const portfolioItems = document.querySelectorAll('#portfolio-grid .logo-tile');
     portfolioItems.forEach((item, index) => {
         item.style.opacity = '0';
         item.style.transform = 'translateY(20px)';
