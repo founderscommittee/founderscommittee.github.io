@@ -1,166 +1,203 @@
+let _snakeGameInstance = null;
+
 class SnakeGame {
     constructor() {
+        if (_snakeGameInstance) _snakeGameInstance.close();
+        _snakeGameInstance = this;
+
+        // Snap canvas size to grid multiple so cells are always whole pixels
+        const rawSize = Math.min(400, window.innerWidth - 64);
+        this.gridSize = 20;
+        const size = Math.floor(rawSize / this.gridSize) * this.gridSize;
+        this.cellCount = size / this.gridSize;
+
         this.canvas = document.createElement('canvas');
         this.ctx = this.canvas.getContext('2d');
-        this.canvas.width = 400;
-        this.canvas.height = 400;
-        this.canvas.style.border = '2px solid transparent';
-        this.canvas.style.borderRadius = '12px';
-        this.canvas.style.background = 'linear-gradient(45deg, #f3f4f6 0%, #ffffff 100%)';
-        this.canvas.style.boxShadow = '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)';
+        this.canvas.width = size;
+        this.canvas.height = size;
+        this.canvas.style.borderRadius = '6px';
+        this.canvas.style.display = 'block';
 
-        this.gridSize = 20;
-        this.snake = [{ x: 10, y: 10 }];
+        const mid = Math.floor(this.cellCount / 2);
+        this.snake = [{ x: mid, y: mid }];
         this.food = this.generateFood();
         this.direction = 'right';
+        this.nextDirection = 'right';
         this.score = 0;
         this.gameLoop = null;
         this.gameSpeed = 100;
         this.gameStarted = false;
+        this.touchStartX = 0;
+        this.touchStartY = 0;
 
-        this.colors = {
-            snake: {
-                head: '#3B82F6',
-                body: '#60A5FA',
-                outline: '#2563EB'
-            },
-            food: {
-                fill: '#EF4444',
-                outline: '#DC2626'
-            },
-            grid: '#E5E7EB'
-        };
+        // Bind for later removeEventListener
+        this.handleKeyDown = this._onKeyDown.bind(this);
+        this.handleTouchStart = this._onTouchStart.bind(this);
+        this.handleTouchEnd = this._onTouchEnd.bind(this);
 
         this.modal = document.createElement('div');
+        this.backdrop = document.createElement('div');
         this.setupModal();
         this.setupControls();
         this.startGame();
     }
 
     setupModal() {
-        this.modal.style.position = 'fixed';
-        this.modal.style.top = '50%';
-        this.modal.style.left = '50%';
-        this.modal.style.transform = 'translate(-50%, -50%)';
-        this.modal.style.backgroundColor = 'rgba(255, 255, 255, 0.98)';
-        this.modal.style.padding = '24px';
-        this.modal.style.borderRadius = '16px';
-        this.modal.style.boxShadow = '0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)';
-        this.modal.style.zIndex = '1000';
-        this.modal.style.textAlign = 'center';
-        this.modal.style.minWidth = '440px';
-        this.modal.style.border = '1px solid rgba(0, 0, 0, 0.1)';
+        const modalWidth = Math.min(440, window.innerWidth * 0.92);
+        const isMobile = window.innerWidth < 480;
 
-        const title = document.createElement('h3');
-        title.textContent = '🎮 FCV Snake Game';
-        title.style.fontSize = '24px';
-        title.style.fontWeight = 'bold';
-        title.style.marginBottom = '16px';
-        title.style.background = 'linear-gradient(90deg, #2563EB, #3B82F6)';
-        title.style.webkitBackgroundClip = 'text';
-        title.style.backgroundClip = 'text';
-        title.style.color = 'transparent';
+        Object.assign(this.backdrop.style, {
+            position: 'fixed', inset: '0',
+            backgroundColor: 'rgba(0,0,0,0.72)',
+            backdropFilter: 'blur(4px)',
+            zIndex: '9999',
+        });
+        this.backdrop.onclick = () => this.close();
 
-        const scoreDisplay = document.createElement('div');
-        scoreDisplay.id = 'snake-score';
-        scoreDisplay.textContent = 'Score: 0';
-        scoreDisplay.style.fontSize = '18px';
-        scoreDisplay.style.fontWeight = '500';
-        scoreDisplay.style.color = '#4B5563';
-        scoreDisplay.style.marginBottom = '16px';
+        Object.assign(this.modal.style, {
+            position: 'fixed', top: '50%', left: '50%',
+            transform: 'translate(-50%, -50%)',
+            backgroundColor: '#0a0a0a',
+            border: '1px solid rgba(255,255,255,0.1)',
+            borderRadius: '10px',
+            padding: isMobile ? '20px' : '24px',
+            boxShadow: '0 24px 48px rgba(0,0,0,0.6)',
+            zIndex: '10000',
+            textAlign: 'center',
+            width: modalWidth + 'px',
+            fontFamily: "'Inter', system-ui, sans-serif",
+        });
 
-        const congratsMessage = document.createElement('div');
-        congratsMessage.innerHTML = '🎉 You found the secret game!<br>Use arrow keys to control the snake.';
-        congratsMessage.style.color = '#6B7280';
-        congratsMessage.style.marginBottom = '20px';
-        congratsMessage.style.fontSize = '16px';
-        congratsMessage.style.lineHeight = '1.5';
+        const title = document.createElement('div');
+        title.textContent = 'FCV Snake';
+        Object.assign(title.style, {
+            fontSize: '18px', fontWeight: '900',
+            letterSpacing: '-0.03em', color: '#ffffff',
+            marginBottom: '4px',
+        });
 
-        const buttonContainer = document.createElement('div');
-        buttonContainer.style.display = 'flex';
-        buttonContainer.style.gap = '12px';
-        buttonContainer.style.justifyContent = 'center';
-        buttonContainer.style.marginBottom = '20px';
+        this.scoreDisplay = document.createElement('div');
+        this.scoreDisplay.textContent = 'Score: 0';
+        Object.assign(this.scoreDisplay.style, {
+            fontSize: '11px', fontWeight: '700',
+            color: '#e85d04', marginBottom: '14px',
+            letterSpacing: '0.1em', textTransform: 'uppercase',
+        });
 
-        const startButton = document.createElement('button');
-        startButton.textContent = '▶️ Start Game';
-        startButton.style.padding = '8px 20px';
-        startButton.style.backgroundColor = '#10B981';
-        startButton.style.color = 'white';
-        startButton.style.border = 'none';
-        startButton.style.borderRadius = '8px';
-        startButton.style.cursor = 'pointer';
-        startButton.style.fontWeight = '500';
-        startButton.style.transition = 'all 0.2s';
-        startButton.onmouseover = () => startButton.style.transform = 'translateY(-2px)';
-        startButton.onmouseout = () => startButton.style.transform = 'translateY(0)';
-        startButton.onclick = () => this.startGameplay();
+        const hint = document.createElement('div');
+        hint.textContent = isMobile
+            ? 'Swipe to steer · Tap close to exit'
+            : 'Arrow keys to steer · Esc to close';
+        Object.assign(hint.style, {
+            fontSize: '11px', color: 'rgba(255,255,255,0.3)',
+            marginBottom: '14px', letterSpacing: '0.04em',
+        });
 
-        const closeButton = document.createElement('button');
-        closeButton.textContent = '✕ Close';
-        closeButton.style.padding = '8px 20px';
-        closeButton.style.backgroundColor = '#6B7280';
-        closeButton.style.color = 'white';
-        closeButton.style.border = 'none';
-        closeButton.style.borderRadius = '8px';
-        closeButton.style.cursor = 'pointer';
-        closeButton.style.fontWeight = '500';
-        closeButton.style.transition = 'all 0.2s';
-        closeButton.onmouseover = () => closeButton.style.transform = 'translateY(-2px)';
-        closeButton.onmouseout = () => closeButton.style.transform = 'translateY(0)';
-        closeButton.onclick = () => this.close();
+        const buttonRow = document.createElement('div');
+        Object.assign(buttonRow.style, {
+            display: 'flex', gap: '8px',
+            justifyContent: 'center', marginBottom: '16px',
+        });
 
-        buttonContainer.appendChild(startButton);
-        buttonContainer.appendChild(closeButton);
+        this.startBtn = document.createElement('button');
+        this.startBtn.textContent = 'Start';
+        Object.assign(this.startBtn.style, {
+            padding: '8px 22px', backgroundColor: '#e85d04',
+            color: '#fff', border: 'none', borderRadius: '4px',
+            cursor: 'pointer', fontWeight: '700', fontSize: '12px',
+            fontFamily: "'Inter', system-ui, sans-serif",
+            letterSpacing: '0.06em', textTransform: 'uppercase',
+        });
+        this.startBtn.onclick = () => this.startGameplay();
+
+        const closeBtn = document.createElement('button');
+        closeBtn.textContent = 'Close';
+        Object.assign(closeBtn.style, {
+            padding: '8px 22px', backgroundColor: 'transparent',
+            color: 'rgba(255,255,255,0.45)',
+            border: '1px solid rgba(255,255,255,0.15)',
+            borderRadius: '4px', cursor: 'pointer',
+            fontWeight: '600', fontSize: '12px',
+            fontFamily: "'Inter', system-ui, sans-serif",
+            letterSpacing: '0.06em', textTransform: 'uppercase',
+        });
+        closeBtn.onclick = () => this.close();
+
+        buttonRow.appendChild(this.startBtn);
+        buttonRow.appendChild(closeBtn);
 
         this.modal.appendChild(title);
-        this.modal.appendChild(scoreDisplay);
-        this.modal.appendChild(congratsMessage);
-        this.modal.appendChild(buttonContainer);
+        this.modal.appendChild(this.scoreDisplay);
+        this.modal.appendChild(hint);
+        this.modal.appendChild(buttonRow);
         this.modal.appendChild(this.canvas);
     }
 
     setupControls() {
-        document.addEventListener('keydown', (e) => {
-            switch (e.key) {
-                case 'ArrowUp':
-                    if (this.direction !== 'down') this.direction = 'up';
-                    break;
-                case 'ArrowDown':
-                    if (this.direction !== 'up') this.direction = 'down';
-                    break;
-                case 'ArrowLeft':
-                    if (this.direction !== 'right') this.direction = 'left';
-                    break;
-                case 'ArrowRight':
-                    if (this.direction !== 'left') this.direction = 'right';
-                    break;
-            }
-        });
+        document.addEventListener('keydown', this.handleKeyDown);
+        this.canvas.addEventListener('touchstart', this.handleTouchStart, { passive: true });
+        this.canvas.addEventListener('touchend', this.handleTouchEnd, { passive: true });
+    }
+
+    _onKeyDown(e) {
+        if (e.key === 'Escape') { this.close(); return; }
+        if (!this.gameStarted) return;
+        const map = {
+            ArrowUp: 'up', ArrowDown: 'down',
+            ArrowLeft: 'left', ArrowRight: 'right',
+        };
+        const opposite = { up: 'down', down: 'up', left: 'right', right: 'left' };
+        const next = map[e.key];
+        if (next && opposite[next] !== this.direction) {
+            this.nextDirection = next;
+            e.preventDefault();
+        }
+    }
+
+    _onTouchStart(e) {
+        this.touchStartX = e.changedTouches[0].clientX;
+        this.touchStartY = e.changedTouches[0].clientY;
+    }
+
+    _onTouchEnd(e) {
+        if (!this.gameStarted) return;
+        const dx = e.changedTouches[0].clientX - this.touchStartX;
+        const dy = e.changedTouches[0].clientY - this.touchStartY;
+        if (Math.abs(dx) < 10 && Math.abs(dy) < 10) return;
+        const opposite = { up: 'down', down: 'up', left: 'right', right: 'left' };
+        let next;
+        if (Math.abs(dx) > Math.abs(dy)) {
+            next = dx > 0 ? 'right' : 'left';
+        } else {
+            next = dy > 0 ? 'down' : 'up';
+        }
+        if (opposite[next] !== this.direction) this.nextDirection = next;
     }
 
     generateFood() {
-        return {
-            x: Math.floor(Math.random() * (this.canvas.width / this.gridSize)),
-            y: Math.floor(Math.random() * (this.canvas.height / this.gridSize))
-        };
+        let food;
+        do {
+            food = {
+                x: Math.floor(Math.random() * this.cellCount),
+                y: Math.floor(Math.random() * this.cellCount),
+            };
+        } while (this.snake && this.snake.some(s => s.x === food.x && s.y === food.y));
+        return food;
     }
 
     update() {
         if (!this.gameStarted) return;
+        this.direction = this.nextDirection;
 
         const head = { ...this.snake[0] };
+        if (this.direction === 'up') head.y--;
+        else if (this.direction === 'down') head.y++;
+        else if (this.direction === 'left') head.x--;
+        else head.x++;
 
-        switch (this.direction) {
-            case 'up': head.y--; break;
-            case 'down': head.y++; break;
-            case 'left': head.x--; break;
-            case 'right': head.x++; break;
-        }
-
-        if (head.x < 0 || head.x >= this.canvas.width / this.gridSize ||
-            head.y < 0 || head.y >= this.canvas.height / this.gridSize ||
-            this.snake.some(segment => segment.x === head.x && segment.y === head.y)) {
+        if (head.x < 0 || head.x >= this.cellCount ||
+            head.y < 0 || head.y >= this.cellCount ||
+            this.snake.some(s => s.x === head.x && s.y === head.y)) {
             this.gameOver();
             return;
         }
@@ -169,7 +206,7 @@ class SnakeGame {
 
         if (head.x === this.food.x && head.y === this.food.y) {
             this.score += 10;
-            document.getElementById('snake-score').textContent = `Score: ${this.score}`;
+            this.scoreDisplay.textContent = 'Score: ' + this.score;
             this.food = this.generateFood();
             if (this.gameSpeed > 50) {
                 this.gameSpeed -= 2;
@@ -181,106 +218,101 @@ class SnakeGame {
     }
 
     draw() {
-        this.ctx.fillStyle = '#F9FAFB';
-        this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
+        const { ctx, canvas, gridSize } = this;
 
-        // Draw grid
-        this.ctx.strokeStyle = this.colors.grid;
-        this.ctx.lineWidth = 0.5;
-        for (let i = 0; i <= this.canvas.width; i += this.gridSize) {
-            this.ctx.beginPath();
-            this.ctx.moveTo(i, 0);
-            this.ctx.lineTo(i, this.canvas.height);
-            this.ctx.stroke();
-            this.ctx.beginPath();
-            this.ctx.moveTo(0, i);
-            this.ctx.lineTo(this.canvas.width, i);
-            this.ctx.stroke();
+        ctx.fillStyle = '#111111';
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+        // Grid
+        ctx.strokeStyle = 'rgba(255,255,255,0.04)';
+        ctx.lineWidth = 0.5;
+        for (let i = 0; i <= canvas.width; i += gridSize) {
+            ctx.beginPath(); ctx.moveTo(i, 0); ctx.lineTo(i, canvas.height); ctx.stroke();
+            ctx.beginPath(); ctx.moveTo(0, i); ctx.lineTo(canvas.width, i); ctx.stroke();
         }
 
         if (!this.gameStarted) {
-            this.ctx.fillStyle = '#3B82F6';
-            this.ctx.font = 'bold 16px Arial';
-            this.ctx.textAlign = 'center';
-            this.ctx.fillText('Press Start to begin!', this.canvas.width / 2, this.canvas.height / 2);
+            ctx.fillStyle = 'rgba(255,255,255,0.2)';
+            ctx.font = `600 13px 'Inter', system-ui, sans-serif`;
+            ctx.textAlign = 'center';
+            ctx.fillText('Press Start to begin', canvas.width / 2, canvas.height / 2);
             return;
         }
 
-        // Draw snake with gradient and outline
-        this.snake.forEach((segment, index) => {
-            this.ctx.fillStyle = index === 0 ? this.colors.snake.head : this.colors.snake.body;
-            this.ctx.strokeStyle = this.colors.snake.outline;
-            this.ctx.lineWidth = 1;
-
-            const x = segment.x * this.gridSize;
-            const y = segment.y * this.gridSize;
-            const size = this.gridSize - 1;
-
-            this.ctx.beginPath();
-            this.ctx.roundRect(x, y, size, size, 4);
-            this.ctx.fill();
-            this.ctx.stroke();
+        // Snake
+        const r = Math.max(2, Math.floor(gridSize / 5));
+        this.snake.forEach((seg, i) => {
+            ctx.fillStyle = i === 0 ? '#e85d04' : 'rgba(232,93,4,0.5)';
+            ctx.strokeStyle = i === 0 ? 'rgba(255,124,42,0.8)' : 'rgba(232,93,4,0.25)';
+            ctx.lineWidth = 1;
+            ctx.beginPath();
+            ctx.roundRect(seg.x * gridSize + 1, seg.y * gridSize + 1, gridSize - 2, gridSize - 2, r);
+            ctx.fill();
+            ctx.stroke();
         });
 
-        // Draw food with glow effect
-        this.ctx.fillStyle = this.colors.food.fill;
-        this.ctx.strokeStyle = this.colors.food.outline;
-        this.ctx.lineWidth = 1;
-
-        const foodX = this.food.x * this.gridSize;
-        const foodY = this.food.y * this.gridSize;
-        const foodSize = this.gridSize - 1;
-
-        this.ctx.shadowColor = this.colors.food.fill;
-        this.ctx.shadowBlur = 10;
-        this.ctx.beginPath();
-        this.ctx.roundRect(foodX, foodY, foodSize, foodSize, 4);
-        this.ctx.fill();
-        this.ctx.stroke();
-        this.ctx.shadowBlur = 0;
+        // Food
+        ctx.fillStyle = '#ffffff';
+        ctx.shadowColor = 'rgba(255,255,255,0.5)';
+        ctx.shadowBlur = 8;
+        ctx.beginPath();
+        ctx.roundRect(this.food.x * gridSize + 2, this.food.y * gridSize + 2, gridSize - 4, gridSize - 4, r);
+        ctx.fill();
+        ctx.shadowBlur = 0;
     }
 
     restartGameLoop() {
         clearInterval(this.gameLoop);
-        this.gameLoop = setInterval(() => {
-            this.update();
-            this.draw();
-        }, this.gameSpeed);
+        this.gameLoop = setInterval(() => { this.update(); this.draw(); }, this.gameSpeed);
     }
 
     startGame() {
+        document.body.appendChild(this.backdrop);
         document.body.appendChild(this.modal);
-        this.draw(); // Draw initial instructions
+        this.draw();
     }
 
     startGameplay() {
-        this.gameStarted = true;
-        this.snake = [{ x: 10, y: 10 }];
+        const mid = Math.floor(this.cellCount / 2);
+        this.snake = [{ x: mid, y: mid }];
         this.direction = 'right';
+        this.nextDirection = 'right';
         this.score = 0;
-        document.getElementById('snake-score').textContent = 'Score: 0';
+        this.scoreDisplay.textContent = 'Score: 0';
         this.food = this.generateFood();
         this.gameSpeed = 100;
+        this.gameStarted = true;
+        this.startBtn.textContent = 'Restart';
         this.restartGameLoop();
     }
 
     gameOver() {
         clearInterval(this.gameLoop);
-        this.ctx.fillStyle = 'rgba(0, 0, 0, 0.7)';
-        this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
+        this.gameStarted = false;
+        this.startBtn.textContent = 'Play Again';
 
-        this.ctx.fillStyle = 'white';
-        this.ctx.font = 'bold 24px Arial';
-        this.ctx.textAlign = 'center';
-        this.ctx.fillText('Game Over!', this.canvas.width / 2, this.canvas.height / 2 - 15);
+        const { ctx, canvas } = this;
+        ctx.fillStyle = 'rgba(0,0,0,0.78)';
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-        this.ctx.font = '16px Arial';
-        this.ctx.fillText(`Final Score: ${this.score}`, this.canvas.width / 2, this.canvas.height / 2 + 15);
-        this.ctx.fillText('Press Start to play again', this.canvas.width / 2, this.canvas.height / 2 + 40);
+        ctx.fillStyle = '#ffffff';
+        ctx.font = `900 20px 'Inter', system-ui, sans-serif`;
+        ctx.textAlign = 'center';
+        ctx.fillText('Game Over', canvas.width / 2, canvas.height / 2 - 14);
+
+        ctx.fillStyle = '#e85d04';
+        ctx.font = `700 12px 'Inter', system-ui, sans-serif`;
+        ctx.letterSpacing = '0.08em';
+        ctx.fillText('SCORE: ' + this.score, canvas.width / 2, canvas.height / 2 + 12);
     }
 
     close() {
         clearInterval(this.gameLoop);
-        document.body.removeChild(this.modal);
+        document.removeEventListener('keydown', this.handleKeyDown);
+        this.canvas.removeEventListener('touchstart', this.handleTouchStart);
+        this.canvas.removeEventListener('touchend', this.handleTouchEnd);
+        if (this.backdrop.parentNode) this.backdrop.parentNode.removeChild(this.backdrop);
+        if (this.modal.parentNode) this.modal.parentNode.removeChild(this.modal);
+        _snakeGameInstance = null;
     }
 }
